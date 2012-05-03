@@ -13,6 +13,7 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <DontImportPostSharp>True</DontImportPostSharp>
+    <postSharpUseCommandLine>True</postSharpUseCommandLine>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -40,6 +41,11 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DesignedByContractAttribute.cs" />
+    <Compile Include="Framework\IParameterContractAnnotation.cs" />
+    <Compile Include="Framework\IReturnValueContractAnnotation.cs" />
+    <Compile Include="NotNullAttribute.cs" />
+    <Compile Include="Framework\ParameterMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
