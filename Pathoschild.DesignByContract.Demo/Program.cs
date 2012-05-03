@@ -1,29 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace Pathoschild.DesignByContract.Demo
 {
-	[DesignedByContract]
-	public class Sword
+	/// <summary>A simple demonstration of design by contract validation using the annotated <see cref="Sword"/>.</summary>
+	public class Program
 	{
-		public string Hit([NotNull] string actor, [NotNull] string target)
-		{
-			return String.Format("{0} hit {1} with a sword!", actor, target);
-		}
-
-		[NotNull]
-		public string GetValue(string value)
-		{
-			return value;
-		}
-	}
-
-	class Program
-	{
-static void Main(string[] args)
+		/// <summary>Execute the demo.</summary>
+		static void Main()
 		{
 			//                "1234567890123456789012345678901234567890123456789012345678901234567890123456789"
 			Console.WriteLine("We have a Sword class with a Hit method which, by contract, can never be passed");
@@ -33,7 +17,7 @@ static void Main(string[] args)
 			Console.WriteLine("Let's pass it some valid values.");
 			PrintInvocation(sword => sword.Hit("Jake", "teh baddies"));
 			Console.WriteLine();
-			
+
 			Console.WriteLine("The contract says you can't give it null arguments; what happens if you do?");
 			PrintInvocation(sword => sword.Hit("Jake", null));
 			Console.WriteLine();
@@ -66,6 +50,8 @@ static void Main(string[] args)
 			Console.WriteLine("or look at the unit tests for more information, or ask a question on the GitHub page.");
 		}
 
+		/// <summary>Print a textual representation of the method invocation to the console along with the return value or thrown exception.</summary>
+		/// <param name="action">The method invocation to print.</param>
 		static void PrintInvocation(Expression<Func<Sword, string>> action)
 		{
 			Console.WriteLine("> {0}", action.Body);
