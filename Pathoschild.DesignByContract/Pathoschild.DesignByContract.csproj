@@ -42,8 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DesignedByContractAttribute.cs" />
-    <Compile Include="Framework\IParameterContractAnnotation.cs" />
-    <Compile Include="Framework\IReturnValueContractAnnotation.cs" />
+    <Compile Include="Framework\IMethodPostcondition.cs" />
+    <Compile Include="Framework\IMethodPrecondition.cs" />
+    <Compile Include="Framework\IParameterPrecondition.cs" />
+    <Compile Include="Framework\IReturnValuePrecondition.cs" />
     <Compile Include="NotNullAttribute.cs" />
     <Compile Include="Framework\ParameterMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

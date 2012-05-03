@@ -10,31 +10,31 @@ namespace Pathoschild.DesignByContract.Tests
 		/*********
 		** Unit tests
 		*********/
-		[Test(Description = "[NotNull] on a method argument should throw an appropriate exception if its value is null or consists entirely of whitespace.")]
+		[Test(Description = "[NotNull] on a method parameter should throw an appropriate exception if its value is null or consists entirely of whitespace.")]
 		[TestCase("a valid value", Result = "a valid value")]
 		[TestCase("", ExpectedException = typeof(ArgumentException))]
 		[TestCase(null, ExpectedException = typeof(ArgumentNullException))]
-		public string ArgumentAnnotation(string value)
+		public string OnParameter(string value)
 		{
-			return this.MethodWithAnnotatedArgument(value);
+			return this.MethodWithAnnotatedParameter(value);
 		}
 
 		[Test(Description = "[NotNull] on a method return value should throw an appropriate exception if its value is null or consists entirely of whitespace.")]
 		[TestCase("a valid value", Result = "a valid value")]
 		[TestCase("", ExpectedException = typeof(InvalidOperationException))]
 		[TestCase(null, ExpectedException = typeof(NullReferenceException))]
-		public string ReturnValueAnnotation(string value)
+		public string OnReturnValue(string value)
 		{
 			return this.MethodWithAnnotatedReturnValue(value);
 		}
 
-		[Test(Description = "[NotNull] on a method itself should throw an appropriate exception if its return value is null or consists entirely of whitespace.")]
+		[Test(Description = "[NotNull] on a method should be equivalent to a return value method.")]
 		[TestCase("a valid value", Result = "a valid value")]
 		[TestCase("", ExpectedException = typeof(InvalidOperationException))]
 		[TestCase(null, ExpectedException = typeof(NullReferenceException))]
-		public string MethodAnnotation(string value)
+		public string OnMethod(string value)
 		{
-			return this.MethodWithAnnotatedAttribute(value);
+			return this.MethodWithAnnotation(value);
 		}
 
 
@@ -44,8 +44,8 @@ namespace Pathoschild.DesignByContract.Tests
 		/// <summary>An example method with an annotated argument.</summary>
 		/// <param name="value">The annotated argument value.</param>
 		/// <returns>Returns the <paramref name="value"/>.</returns>
-		[DesignedByContract, NotNull]
-		protected string MethodWithAnnotatedArgument([NotNull] string value)
+		[DesignedByContract]
+		protected string MethodWithAnnotatedParameter([NotNull] string value)
 		{
 			return value;
 		}
@@ -65,7 +65,7 @@ namespace Pathoschild.DesignByContract.Tests
 		/// <returns>Returns the <paramref name="value"/>.</returns>
 		[DesignedByContract]
 		[NotNull]
-		protected string MethodWithAnnotatedAttribute(string value)
+		protected string MethodWithAnnotation(string value)
 		{
 			return value;
 		}

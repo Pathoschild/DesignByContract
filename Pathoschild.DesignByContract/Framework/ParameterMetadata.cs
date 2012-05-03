@@ -15,6 +15,6 @@ namespace Pathoschild.DesignByContract.Framework
 		public int Index { get; set; }
 
 		/// <summary>The contract annotation applied to the parameter.</summary>
-		public IParameterContractAnnotation Annotation { get; set; }
+		public IParameterPrecondition Annotation { get; set; }
 	}
 }
