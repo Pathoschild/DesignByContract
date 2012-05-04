@@ -41,24 +41,20 @@ The following annotations are implemented out of the box:
 
 * `[NotNull]` indicates that a value cannot be `null`. It will throw   `ArgumentNullException` on a parameter value or `NullReferenceException` on a return value.
 * `[NotBlank]` indicates that a value cannot be an empty string or one consisting entirely of whitespace. It will throw `ArgumentException` on a parameter value or `InvalidOperationException` on a return value.
-* `[NotEmpty]` indicates that a value cannot be an empty sequence or string. It will throw `ArgumentException` (on a parameter value) or `InvalidOperationException` on a return value.
+* `[NotEmpty]` indicates that a value cannot be an empty sequence or string. It will throw `ArgumentException` on a parameter value or `InvalidOperationException` on a return value.
 
 The following convenience attributes are also available in the `Pathoschild.DesignByContract.Shorthand` namespace:
 * `[NotNullOrBlank]` is equivalent to `[NotNull, NotBlank]`.
 * `[NotNullOrEmpty]` is equivalent to `[NotNull, NotEmpty]`.
 
-You can also create new annotations simply by creating [attributes](http://msdn.microsoft.com/en-us/library/z0w1kczw(v=vs.80).aspx that implement one or more of the following interfaces (in order of validation):
-* `IMethodPrecondition` checks that a method may be invoked (e.g.: `[NotDisposed]`).
-* `IParameterPrecondition` checks that an input value to a method parameter or property setter is valid (e.g.: `[NotNull]`).
-* `IReturnValuePrecondition` checks that a return value from a method or property getter is valid (e.g.: `[NotNull]`).
+You can also create new annotations simply by creating [attributes](http://msdn.microsoft.com/en-us/library/z0w1kczw\(v=vs.80\).aspx) that implement one or more of the following interfaces (in order of validation):
+* `IMethodPrecondition` checks that a method may be invoked.
+* `IParameterPrecondition` checks that an input value to a method parameter or property setter is valid.
+* `IReturnValuePrecondition` checks that a return value from a method or property getter is valid.
 * `IMethodPostcondition` checks that a method may be completed.
 
 ###Installation
-**This is an early proof of concept, and shouldn't really be used in production yet.**
-
-You only need to do the following for uncompiled projects containing annotations. You can reference their compiled DLLs without knowing about annotations or PostSharp, so using these annotations shouldn't affect redistribution.
-
-These steps assume you're using Visual Studio 2010; you may need to adapt these instructions if you're not.
+You only need to do the following for uncompiled projects containing annotations. You can reference their compiled DLLs without knowing about annotations or PostSharp, so using these annotations shouldn't affect redistribution. (These steps assume you're using Visual Studio.)
 
 1. [Purchase a license or request a free Starter License for PostSharp](http://www.sharpcrafters.com/purchase/compare).
 2. Using the [NuGet library package manager](https://nuget.codeplex.com/wikipage?title=Getting%20Started), install PostSharp for the project that will contain annotations.
