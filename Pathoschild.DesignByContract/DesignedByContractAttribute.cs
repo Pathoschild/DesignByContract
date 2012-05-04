@@ -71,8 +71,6 @@ namespace Pathoschild.DesignByContract
 				validator.OnMethodPrecondition(this.FriendlyName, args);
 			foreach (ParameterMetadata validator in this.ParameterPreconditions)
 				validator.Annotation.OnParameterPrecondition(this.FriendlyName, validator, args.Arguments[validator.Index]);
-
-			base.OnEntry(args);
 		}
 
 		/// <summary>Method executed <b>after</b> the body of methods to which this aspect is applied, but only when the method successfully returns (i.e. when no exception flies out the method.).</summary>
@@ -83,8 +81,6 @@ namespace Pathoschild.DesignByContract
 				validator.OnReturnValuePrecondition(this.FriendlyName, args.ReturnValue);
 			foreach (IMethodPostcondition validator in this.MethodPostconditions)
 				validator.OnMethodPostcondition(this.FriendlyName, args);
-
-			base.OnSuccess(args);
 		}
 
 
