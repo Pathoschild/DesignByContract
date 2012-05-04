@@ -41,6 +41,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Framework\ConditionTargets.cs" />
+    <Compile Include="NotBlankAttribute.cs" />
+    <Compile Include="NotEmptyAttribute.cs" />
     <Compile Include="DesignedByContractAttribute.cs" />
     <Compile Include="Framework\IMethodPostcondition.cs" />
     <Compile Include="Framework\IMethodPrecondition.cs" />
@@ -49,6 +52,8 @@
     <Compile Include="NotNullAttribute.cs" />
     <Compile Include="Framework\ParameterMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shorthand\NotNullOrEmptyAttribute.cs" />
+    <Compile Include="Shorthand\NotNullOrBlankAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -43,7 +43,13 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NotNullAttribute.cs" />
+    <Compile Include="Attributes\NotEmpty.cs" />
+    <Compile Include="Attributes\NotBlank.cs" />
+    <Compile Include="Attributes\Shorthand\NotNullOrBlank.cs" />
+    <Compile Include="Attributes\Shorthand\NotNullOrEmpty.cs" />
+    <Compile Include="Attributes\NotNull.cs" />
+    <Compile Include="Base\ISword.cs" />
+    <Compile Include="Base\TestReturnCaseAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

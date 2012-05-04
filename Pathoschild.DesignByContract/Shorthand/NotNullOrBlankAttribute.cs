@@ -1,13 +1,23 @@
 ﻿using System;
 using Pathoschild.DesignByContract.Framework;
 
-namespace Pathoschild.DesignByContract
+namespace Pathoschild.DesignByContract.Shorthand
 {
-	/// <summary>A contract precondition that a value not be <c>null</c>.</summary>
+	/// <summary>A contract precondition that a value not be <c>null</c> nor a string that consists entirely of whitespace.</summary>
 	[AttributeUsage((AttributeTargets)(ConditionTargets.Parameter | ConditionTargets.ReturnValue))]
 	[Serializable]
-	public class NotNullAttribute : Attribute, IParameterPrecondition, IReturnValuePrecondition
+	public class NotNullOrBlankAttribute : Attribute, IParameterPrecondition, IReturnValuePrecondition
 	{
+		/*********
+		** Properties
+		*********/
+		/// <summary>A contract precondition that a value not be <c>null</c>.</summary>
+		protected NotNullAttribute NotNullAttribute = new NotNullAttribute();
+
+		/// <summary>A contract precondition that a value not be a string that consists entirely of whitespace.</summary>
+		protected NotBlankAttribute NotBlankAttribute = new NotBlankAttribute();
+
+
 		/*********
 		** Public methods
 		*********/
@@ -18,8 +28,8 @@ namespace Pathoschild.DesignByContract
 		/// <exception cref="Exception">The contract requirement was not met.</exception>
 		public void OnParameterPrecondition(string friendlyName, ParameterMetadata parameter, object value)
 		{
-			if (value == null)
-				throw new ArgumentNullException(parameter.Parameter.Name, String.Format("The value cannot be null for parameter '{0}' of method {1}.", parameter.Parameter.Name, friendlyName));
+			this.NotNullAttribute.OnParameterPrecondition(friendlyName, parameter, value);
+			this.NotBlankAttribute.OnParameterPrecondition(friendlyName, parameter, value);
 		}
 
 		/// <summary>Validate the requirement on a method or property return value.</summary>
@@ -28,8 +38,8 @@ namespace Pathoschild.DesignByContract
 		/// <exception cref="Exception">The contract requirement was not met.</exception>
 		public void OnReturnValuePrecondition(string friendlyName, object value)
 		{
-			if (value == null)
-				throw new NullReferenceException(String.Format("The return value cannot be null for method '{0}'.", friendlyName));
+			this.NotNullAttribute.OnReturnValuePrecondition(friendlyName, value);
+			this.NotBlankAttribute.OnReturnValuePrecondition(friendlyName, value);
 		}
 	}
 }

@@ -9,7 +9,7 @@ namespace Pathoschild.DesignByContract
 {
 	/// <summary>Indicates that invocations of the target methods should be validated to ensure that their preconditions or postconditions are respected.</summary>
 	/// <remarks>This aspect analyzes annotated code at compile time, serializes the reflection metadata into its cache, and intercepts method calls at runtime to check conditions.</remarks>
-	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Constructor | AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Struct)]
+	[AttributeUsage((AttributeTargets)(ConditionTargets.All) | AttributeTargets.Class)]
 	[Serializable]
 	public class DesignedByContractAttribute : OnMethodBoundaryAspect
 	{
