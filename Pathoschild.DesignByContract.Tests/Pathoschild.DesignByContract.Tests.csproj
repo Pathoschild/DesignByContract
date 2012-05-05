@@ -43,6 +43,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\HasType.cs" />
     <Compile Include="Attributes\NotEmpty.cs" />
     <Compile Include="Attributes\NotBlank.cs" />
     <Compile Include="Attributes\Shorthand\NotNullOrBlank.cs" />

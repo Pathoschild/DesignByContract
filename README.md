@@ -37,17 +37,20 @@ is equivalent to this one *without*:
         }
 
 ###Available annotations
-The following annotations are implemented out of the box:
+The following annotations are implemented out of the box. When a contract is violated, an annotation will generally throw a descriptive exception with the type `ArgumentException` (parameter value) or `InvalidOperationException` (return value).
 
-* `[NotNull]` indicates that a value cannot be `null`. It will throw   `ArgumentNullException` on a parameter value or `NullReferenceException` on a return value.
-* `[NotBlank]` indicates that a value cannot be an empty string or one consisting entirely of whitespace. It will throw `ArgumentException` on a parameter value or `InvalidOperationException` on a return value.
-* `[NotEmpty]` indicates that a value cannot be an empty sequence or string. It will throw `ArgumentException` on a parameter value or `InvalidOperationException` on a return value.
+* `[NotNull]` indicates that a value cannot be `null`. Unlike other annotations, it will throw `ArgumentNullException` (parameter value) or `NullReferenceException` (return value).
+* `[NotBlank]` indicates that a value cannot be an empty string or one consisting entirely of whitespace.
+* `[NotEmpty]` indicates that a value cannot be an empty sequence or string.
+* `[HasType]` indicates that a value must implement one of several types (with possible inheritance). This is intended to make code that must [unbox arguments](http://msdn.microsoft.com/en-us/library/yz2be5wk.aspx) more robust.
 
 The following convenience attributes are also available in the `Pathoschild.DesignByContract.Shorthand` namespace:
+
 * `[NotNullOrBlank]` is equivalent to `[NotNull, NotBlank]`.
 * `[NotNullOrEmpty]` is equivalent to `[NotNull, NotEmpty]`.
 
-You can also create new annotations simply by creating [attributes](http://msdn.microsoft.com/en-us/library/z0w1kczw\(v=vs.80\).aspx) that implement one or more of the following interfaces (in order of validation):
+###Creating annotations
+You can create new annotations simply by creating [attributes](http://msdn.microsoft.com/en-us/library/z0w1kczw\(v=vs.80\).aspx) that implement one or more of the following interfaces (in order of validation):
 * `IMethodPrecondition` checks that a method may be invoked.
 * `IParameterPrecondition` checks that an input value to a method parameter or property setter is valid.
 * `IReturnValuePrecondition` checks that a return value from a method or property getter is valid.

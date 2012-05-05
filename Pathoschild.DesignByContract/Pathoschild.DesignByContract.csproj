@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Framework\ConditionTargets.cs" />
+    <Compile Include="HasTypeAttribute.cs" />
     <Compile Include="NotBlankAttribute.cs" />
     <Compile Include="NotEmptyAttribute.cs" />
     <Compile Include="DesignedByContractAttribute.cs" />
