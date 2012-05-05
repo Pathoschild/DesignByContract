@@ -1,6 +1,6 @@
 **Pathoschild.DesignByContract** is a little aspect-oriented library which enables design-by-contract preconditions and postconditions. By annotating your code with attributes like `[NotNull]`, you can eliminate boilerplate validation logic while enabling helpful exception messages and making your code much more robust and refactor-safe. These annotation attributes are also recognized by [ReSharper](http://www.jetbrains.com/resharper/) when it has an equivalent annotation, which gives you real-time feedback on contract violations as you type.
 
-The library is built on top of [PostSharp](http://www.sharpcrafters.com/), a proprietary and commercial framework that requires a license for use (the [free Starter License](http://www.sharpcrafters.com/purchase/compare) is sufficient). A license is only required to build the project containing the annotations — there are no licensing requirements to reference the compiled project. The eventual goal is to migrate to an open-source alternative like [SheepAspect](http://sheepaspect.org) when it's mature enough.
+The library uses [PostSharp](http://www.sharpcrafters.com/) for its compile-time aspect weaving, a proprietary and commercial framework that requires a license for use (the [free Starter License](http://www.sharpcrafters.com/purchase/compare) is sufficient). A license is only required to build the project containing the annotations — there are no licensing requirements to reference the compiled project. The eventual goal is to migrate to an open-source alternative like [SheepAspect](http://sheepaspect.org) when it's mature enough.
 
 **This is an early proof of concept, and shouldn't really be used in production yet. (We're using it in production, but we're _crazy_.)**
 
@@ -20,19 +20,16 @@ is equivalent to this one *without*:
 
         public string Hit(string actor, string target)
         {
-            if (actor == null)
-                throw new ArgumentNullException("actor", "The value cannot be null for parameter 'actor' of method 'Sword::Hit'.");
-            if (String.IsNullOrWhiteSpace(actor))
-                throw new ArgumentNullException("actor", "The value cannot be blank or consist entirely of whitespace for parameter 'actor' of method 'Sword::Hit'.");
-            if (target == null)
-                throw new ArgumentNullException("target", "The value cannot be null for parameter 'target' of method 'Sword::Hit'.");
-            if (String.IsNullOrWhiteSpace(target))
-                throw new ArgumentNullException("target", "The value cannot be blank or consist entirely of whitespace for parameter 'target' of method 'Sword::Hit'.");
+            if (actor == null) throw new ArgumentNullException("actor", "The value cannot be null for parameter 'actor' of method 'Sword::Hit'.");
+            if (String.IsNullOrWhiteSpace(actor)) throw new ArgumentNullException("actor", "The value cannot be blank or consist entirely of whitespace for parameter 'actor' of method 'Sword::Hit'.");
+            if (target == null) throw new ArgumentNullException("target", "The value cannot be null for parameter 'target' of method 'Sword::Hit'.");
+            if (String.IsNullOrWhiteSpace(target)) throw new ArgumentNullException("target", "The value cannot be blank or consist entirely of whitespace for parameter 'target' of method 'Sword::Hit'.");
+
             string value = String.Format("{0} hit {1} with a sword!", actor, target);
-            if(value == null)
-                throw new NullReferenceException("The return value cannot be null for method 'Sword::Hit'.");
-            if(String.IsNullOrWhiteSpace(value))
-                throw new InvalidOperationException("The return value cannot be blank or consist entirely of whitespace for method 'Sword::Hit'.");
+
+            if(value == null) throw new NullReferenceException("The return value cannot be null for method 'Sword::Hit'.");
+            if(String.IsNullOrWhiteSpace(value)) throw new InvalidOperationException("The return value cannot be blank or consist entirely of whitespace for method 'Sword::Hit'.");
+
             return value;
         }
 
