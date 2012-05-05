@@ -46,8 +46,6 @@
     <Compile Include="NotBlankAttribute.cs" />
     <Compile Include="NotEmptyAttribute.cs" />
     <Compile Include="DesignedByContractAttribute.cs" />
-    <Compile Include="Framework\IMethodPostcondition.cs" />
-    <Compile Include="Framework\IMethodPrecondition.cs" />
     <Compile Include="Framework\IParameterPrecondition.cs" />
     <Compile Include="Framework\IReturnValuePrecondition.cs" />
     <Compile Include="NotNullAttribute.cs" />

@@ -23,12 +23,6 @@ namespace Pathoschild.DesignByContract
 		/// <summary>Whether to inherit contract annotations defined on a base class or interface.</summary>
 		public bool InheritContract { get; set; }
 
-		/// <summary>The contract requirements that must be met before a method is executed.</summary>
-		public IMethodPrecondition[] MethodPreconditions { get; set; }
-
-		/// <summary>The contract requirements that must be met after a method is executed.</summary>
-		public IMethodPostcondition[] MethodPostconditions { get; set; }
-
 		/// <summary>The contract requirements for each method parameter or property setter value.</summary>
 		public ParameterMetadata[] ParameterPreconditions { get; set; }
 		
@@ -55,8 +49,6 @@ namespace Pathoschild.DesignByContract
 			this.FriendlyName = this.GetFriendlyName(method);
 
 			// analyze contract conditions
-			this.MethodPreconditions = this.GetMethodPreconditions(method, this.InheritContract);
-			this.MethodPostconditions = this.GetMethodPostconditions(method, this.InheritContract);
 			this.ParameterPreconditions = this.GetParameterPreconditions(method, this.InheritContract);
 			this.ReturnValuePreconditions = this.GetReturnValuePreconditions(method, this.InheritContract);
 
@@ -67,8 +59,6 @@ namespace Pathoschild.DesignByContract
 		/// <param name="args">Event arguments specifying which method is being executed, which are its arguments, and how should the execution continue after the execution of <see cref="M:PostSharp.Aspects.IOnMethodBoundaryAspect.OnEntry(PostSharp.Aspects.MethodExecutionArgs)"/>.</param>
 		public override void OnEntry(MethodExecutionArgs args)
 		{
-			foreach (IMethodPrecondition validator in this.MethodPreconditions)
-				validator.OnMethodPrecondition(this.FriendlyName, args);
 			foreach (ParameterMetadata validator in this.ParameterPreconditions)
 				validator.Annotation.OnParameterPrecondition(this.FriendlyName, validator, args.Arguments[validator.Index]);
 		}
@@ -79,8 +69,6 @@ namespace Pathoschild.DesignByContract
 		{
 			foreach (IReturnValuePrecondition validator in this.ReturnValuePreconditions)
 				validator.OnReturnValuePrecondition(this.FriendlyName, args.ReturnValue);
-			foreach (IMethodPostcondition validator in this.MethodPostconditions)
-				validator.OnMethodPostcondition(this.FriendlyName, args);
 		}
 
 
@@ -92,26 +80,6 @@ namespace Pathoschild.DesignByContract
 		protected string GetFriendlyName(MethodBase method)
 		{
 			return String.Format("{0}::{1}", method.DeclaringType.Name, method.Name);
-		}
-
-		/// <summary>Get the contract requirements that must be met before a method is executed.</summary>
-		/// <param name="method">The method to analyze.</param>
-		/// <param name="inheritContracts">Whether to inherit contracts from base classes and interfaces.</param>
-		protected IMethodPrecondition[] GetMethodPreconditions(MethodBase method, bool inheritContracts = true)
-		{
-			return this
-				.GetCustomAttributes<IMethodPrecondition>(method, this.InheritContract)
-				.ToArray();
-		}
-
-		/// <summary>Get the contract requirements that must be met after a method is executed.</summary>
-		/// <param name="method">The method to analyze.</param>
-		/// <param name="inheritContracts">Whether to inherit contracts from base classes and interfaces.</param>
-		protected IMethodPostcondition[] GetMethodPostconditions(MethodBase method, bool inheritContracts = true)
-		{
-			return this
-				.GetCustomAttributes<IMethodPostcondition>(method, this.InheritContract)
-				.ToArray();
 		}
 
 		/// <summary>Get the contract requirements for each method parameter or property setter value.</summary>
