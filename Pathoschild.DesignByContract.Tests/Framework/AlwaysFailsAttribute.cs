@@ -1,6 +1,5 @@
 ﻿using System;
 using Pathoschild.DesignByContract.Framework;
-using Pathoschild.DesignByContract.Framework.Reflection;
 
 namespace Pathoschild.DesignByContract.Tests.Framework
 {

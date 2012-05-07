@@ -41,6 +41,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Framework\Analysis\IMethodAnalyzer.cs" />
+    <Compile Include="Framework\Analysis\MethodAnalysis.cs" />
+    <Compile Include="Framework\Analysis\MethodAnalyzer.cs" />
     <Compile Include="Framework\ConditionTargets.cs" />
     <Compile Include="HasTypeAttribute.cs" />
     <Compile Include="NotBlankAttribute.cs" />
