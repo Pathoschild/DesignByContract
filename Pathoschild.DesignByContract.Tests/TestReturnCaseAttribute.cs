@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 
-namespace Pathoschild.DesignByContract.Tests.Base
+namespace Pathoschild.DesignByContract.Tests
 {
 	/// <summary>Marks parameterized test cases whose first argument is returned.</summary>
 	public class TestReturnCaseAttribute : TestCaseAttribute

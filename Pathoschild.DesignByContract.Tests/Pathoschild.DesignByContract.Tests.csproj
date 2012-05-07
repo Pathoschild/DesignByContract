@@ -49,8 +49,9 @@
     <Compile Include="Attributes\Shorthand\NotNullOrBlank.cs" />
     <Compile Include="Attributes\Shorthand\NotNullOrEmpty.cs" />
     <Compile Include="Attributes\NotNull.cs" />
-    <Compile Include="Base\ISword.cs" />
-    <Compile Include="Base\TestReturnCaseAttribute.cs" />
+    <Compile Include="Framework\DesignedByContractTests.cs" />
+    <Compile Include="Framework\AlwaysFailsAttribute.cs" />
+    <Compile Include="TestReturnCaseAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
