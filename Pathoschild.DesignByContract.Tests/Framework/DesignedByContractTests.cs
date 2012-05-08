@@ -25,6 +25,7 @@ namespace Pathoschild.DesignByContract.Tests.Framework
 				this.ExpectedMessage = String.Format("parameter={0}, value={1}, format=Contract violation on parameter '{0}' of method '{2}': {{0}}", parameterName, value, friendlyName);
 			}
 		}
+
 		/// <summary>An NUnit test case in <see cref="DesignedByContractTests"/> for a return value annotation.</summary>
 		public class TestReturnValueAnnotationCaseAttribute : TestCaseAttribute
 		{

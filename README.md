@@ -47,7 +47,7 @@ The following convenience attributes are also available in the `Pathoschild.Desi
 * `[NotNullOrEmpty]` is equivalent to `[NotNull, NotEmpty]`.
 
 ###Creating annotations
-You can create new annotations simply by creating [attributes](http://msdn.microsoft.com/en-us/library/z0w1kczw\(v=vs.80\).aspx) that implement one or more of the following interfaces:
+You can create new annotations simply by creating [attributes](http://msdn.microsoft.com/en-us/library/z0w1kczw\(v=vs.80\).aspx) that implement one or more of the following interfaces (see an [example annotation](https://github.com/Pathoschild/Pathoschild.DesignByContract/blob/master/Pathoschild.DesignByContract/NotNullAttribute.cs)):
 
 * `IParameterPrecondition` checks that an input value to a method parameter or property setter is valid.
 * `IReturnValuePrecondition` checks that a return value from a method or property getter is valid.
