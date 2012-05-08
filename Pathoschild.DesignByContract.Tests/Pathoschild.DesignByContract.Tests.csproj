@@ -49,6 +49,10 @@
     <Compile Include="Attributes\Shorthand\NotNullOrBlank.cs" />
     <Compile Include="Attributes\Shorthand\NotNullOrEmpty.cs" />
     <Compile Include="Attributes\NotNull.cs" />
+    <Compile Include="Framework\Annotated\ISword.cs" />
+    <Compile Include="Framework\Annotated\StaticSword.cs" />
+    <Compile Include="Framework\Annotated\Sword.cs" />
+    <Compile Include="Framework\Annotated\InterfaceSword.cs" />
     <Compile Include="Framework\DesignedByContractTests.cs" />
     <Compile Include="Framework\AlwaysFailsAttribute.cs" />
     <Compile Include="TestReturnCaseAttribute.cs" />
