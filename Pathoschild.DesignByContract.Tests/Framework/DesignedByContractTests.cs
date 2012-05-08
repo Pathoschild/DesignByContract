@@ -8,13 +8,47 @@ namespace Pathoschild.DesignByContract.Tests.Framework
 	public class DesignedByContractTests
 	{
 		/*********
+		** Test cases
+		*********/
+		/// <summary>An NUnit test case in <see cref="DesignedByContractTests"/> for a parameter annotation.</summary>
+		public class TestParameterAnnotationCaseAttribute : TestCaseAttribute
+		{
+			/// <summary>Construct an NUnit test case in <see cref="DesignedByContractTests"/> for a parameter annotation.</summary>
+			/// <param name="value">The unit test parameter value and expected return.</param>
+			/// <param name="friendlyName">The friendly name of the invoked method or property.</param>
+			/// <param name="parameterName">The name of the annotated parameter.</param>
+			public TestParameterAnnotationCaseAttribute(bool value, string friendlyName, string parameterName = "value")
+				: base(value)
+			{
+				this.Result = value;
+				this.ExpectedException = typeof(Exception);
+				this.ExpectedMessage = String.Format("parameter={0}, value={1}, format=Contract violation on parameter '{0}' of method '{2}': {{0}}", parameterName, value, friendlyName);
+			}
+		}
+		/// <summary>An NUnit test case in <see cref="DesignedByContractTests"/> for a return value annotation.</summary>
+		public class TestReturnValueAnnotationCaseAttribute : TestCaseAttribute
+		{
+			/// <summary>Construct an NUnit test case in <see cref="DesignedByContractTests"/> for a return value annotation.</summary>
+			/// <param name="value">The unit test parameter value and expected return.</param>
+			/// <param name="friendlyName">The friendly name of the invoked method or property.</param>
+			public TestReturnValueAnnotationCaseAttribute(bool value, string friendlyName)
+				: base(value)
+			{
+				this.Result = value;
+				this.ExpectedException = typeof(Exception);
+				this.ExpectedMessage = String.Format("value={0}, format=Contract violation on return value of method '{1}': {{0}}", value, friendlyName);
+			}
+		}
+
+
+		/*********
 		** Unit tests
 		*********/
 		/***
 		** Constructors
 		***/
-		[TestReturnCase(true, typeof(Exception), ExpectedMessage = "parameter=value, value=True, friendly=Sword::.ctor")]
-		[TestReturnCase(false, typeof(Exception), ExpectedMessage = "parameter=value, value=False, friendly=Sword::.ctor")]
+		[TestParameterAnnotationCase(true, "Sword::.ctor")]
+		[TestParameterAnnotationCase(false, "Sword::.ctor")]
 		public bool OnConstructorParameter(bool value)
 		{
 			new Sword(value);
@@ -24,22 +58,22 @@ namespace Pathoschild.DesignByContract.Tests.Framework
 		/***
 		** Methods (instance)
 		***/
-		[TestReturnCase(true, typeof(Exception), ExpectedMessage = "parameter=value, value=True, friendly=Sword::OnMethodParameter")]
-		[TestReturnCase(false, typeof(Exception), ExpectedMessage = "parameter=value, value=False, friendly=Sword::OnMethodParameter")]
+		[TestParameterAnnotationCase(true, "Sword::OnMethodParameter")]
+		[TestParameterAnnotationCase(false, "Sword::OnMethodParameter")]
 		public bool OnMethodParameter(bool value)
 		{
 			return new Sword().OnMethodParameter(value);
 		}
 
-		[TestReturnCase(true, typeof(Exception), ExpectedMessage = "value=True, friendly=Sword::OnMethodReturnValue")]
-		[TestReturnCase(false, typeof(Exception), ExpectedMessage = "value=False, friendly=Sword::OnMethodReturnValue")]
+		[TestReturnValueAnnotationCase(true, "Sword::OnMethodReturnValue")]
+		[TestReturnValueAnnotationCase(false, "Sword::OnMethodReturnValue")]
 		public bool OnMethodReturnValue(bool value)
 		{
 			return new Sword().OnMethodReturnValue(value);
 		}
 
-		[TestReturnCase(true, typeof(Exception), ExpectedMessage = "value=True, friendly=Sword::OnMethod")]
-		[TestReturnCase(false, typeof(Exception), ExpectedMessage = "value=False, friendly=Sword::OnMethod")]
+		[TestReturnValueAnnotationCase(true, "Sword::OnMethod")]
+		[TestReturnValueAnnotationCase(false, "Sword::OnMethod")]
 		public bool OnMethod(bool value)
 		{
 			return new Sword().OnMethod(value);
@@ -48,68 +82,68 @@ namespace Pathoschild.DesignByContract.Tests.Framework
 		/***
 		** Methods (static)
 		***/
-		[TestReturnCase(true, typeof(Exception), ExpectedMessage = "parameter=value, value=True, friendly=StaticSword::OnMethodParameter")]
-		[TestReturnCase(false, typeof(Exception), ExpectedMessage = "parameter=value, value=False, friendly=StaticSword::OnMethodParameter")]
+		[TestParameterAnnotationCase(true, "StaticSword::OnMethodParameter")]
+		[TestParameterAnnotationCase(false, "StaticSword::OnMethodParameter")]
 		public bool OnStaticMethodParameter(bool value)
 		{
 			return StaticSword.OnMethodParameter(value);
 		}
 
-		[TestReturnCase(true, typeof(Exception), ExpectedMessage = "value=True, friendly=StaticSword::OnMethodReturnValue")]
-		[TestReturnCase(false, typeof(Exception), ExpectedMessage = "value=False, friendly=StaticSword::OnMethodReturnValue")]
+		[TestReturnValueAnnotationCase(true, "StaticSword::OnMethodReturnValue")]
+		[TestReturnValueAnnotationCase(false, "StaticSword::OnMethodReturnValue")]
 		public bool OnStaticMethodReturnValue(bool value)
 		{
 			return StaticSword.OnMethodReturnValue(value);
 		}
 
-		[TestReturnCase(true, typeof(Exception), ExpectedMessage = "value=True, friendly=StaticSword::OnMethod")]
-		[TestReturnCase(false, typeof(Exception), ExpectedMessage = "value=False, friendly=StaticSword::OnMethod")]
+		[TestReturnValueAnnotationCase(true, "StaticSword::OnMethod")]
+		[TestReturnValueAnnotationCase(false, "StaticSword::OnMethod")]
 		public bool OnStaticMethod(bool value)
 		{
 			return StaticSword.OnMethod(value);
 		}
 
 		/***
-		** Properties (instance)
+		** Property getters
 		***/
-		[TestReturnCase(true, typeof(Exception), ExpectedMessage = "value=True, friendly=Sword::get_OnProperty")]
-		[TestReturnCase(false, typeof(Exception), ExpectedMessage = "value=False, friendly=Sword::get_OnProperty")]
+		[TestReturnValueAnnotationCase(true, "Sword::get_OnProperty")]
+		[TestReturnValueAnnotationCase(false, "Sword::get_OnProperty")]
 		public bool OnProperty_Get(bool value)
 		{
 			return new Sword { _onProperty = value }.OnProperty;
 		}
 
-		[TestReturnCase(true, typeof(Exception), ExpectedMessage = "parameter=value, value=True, friendly=Sword::set_OnProperty")]
-		[TestReturnCase(false, typeof(Exception), ExpectedMessage = "parameter=value, value=False, friendly=Sword::set_OnProperty")]
+		[TestReturnValueAnnotationCase(true, "Sword::get_PrivateProperty")]
+		[TestReturnValueAnnotationCase(false, "Sword::get_PrivateProperty")]
+		public bool OnProperty_GetPrivate(bool value)
+		{
+			return new Sword { _privateProperty = value }.OnPrivateProperty;
+		}
+
+		[TestReturnValueAnnotationCase(true, "Sword::get_OnReadonlyProperty")]
+		[TestReturnValueAnnotationCase(false, "Sword::get_OnReadonlyProperty")]
+		public bool OnProperty_GetReadonly(bool value)
+		{
+			return new Sword { _onReadonlyProperty = value }.OnReadonlyProperty;
+		}
+
+		[TestParameterAnnotationCase(true, "Sword::set_OnProperty")]
+		[TestParameterAnnotationCase(false, "Sword::set_OnProperty")]
 		public bool OnProperty_Set(bool value)
 		{
 			return new Sword().OnProperty = value;
 		}
 
-		[TestReturnCase(true, typeof(Exception), ExpectedMessage = "value=True, friendly=Sword::get_PrivateProperty")]
-		[TestReturnCase(false, typeof(Exception), ExpectedMessage = "value=False, friendly=Sword::get_PrivateProperty")]
-		public bool OnProperty_PrivateGet(bool value)
-		{
-			return new Sword { _privateProperty = value }.OnPrivateProperty;
-		}
-
-		[TestReturnCase(true, typeof(Exception), ExpectedMessage = "parameter=value, value=True, friendly=Sword::set_PrivateProperty")]
-		[TestReturnCase(false, typeof(Exception), ExpectedMessage = "parameter=value, value=False, friendly=Sword::set_PrivateProperty")]
-		public bool OnProperty_PrivateSet(bool value)
+		[TestParameterAnnotationCase(true, "Sword::set_PrivateProperty")]
+		[TestParameterAnnotationCase(false, "Sword::set_PrivateProperty")]
+		public bool OnProperty_SetPrivate(bool value)
 		{
 			return new Sword().OnPrivateProperty = value;
 		}
 
-		[TestReturnCase(true, typeof(Exception), ExpectedMessage = "value=True, friendly=Sword::get_OnReadonlyProperty")]
-		[TestReturnCase(false, typeof(Exception), ExpectedMessage = "value=False, friendly=Sword::get_OnReadonlyProperty")]
-		public bool OnProperty_ReadonlyGet(bool value)
-		{
-			return new Sword { _onReadonlyProperty = value }.OnReadonlyProperty;
-		}
-
-		[TestReturnCase(true, typeof(Exception), ExpectedMessage = "parameter=value, value=True, friendly=Sword::set_OnWriteonlyProperty")]
-		[TestReturnCase(false, typeof(Exception), ExpectedMessage = "parameter=value, value=False, friendly=Sword::set_OnWriteonlyProperty")]
-		public bool OnProperty_WriteonlyGet(bool value)
+		[TestParameterAnnotationCase(true, "Sword::set_OnWriteonlyProperty")]
+		[TestParameterAnnotationCase(false, "Sword::set_OnWriteonlyProperty")]
+		public bool OnProperty_SetWriteonly(bool value)
 		{
 			return new Sword().OnWriteonlyProperty = value;
 		}
@@ -117,32 +151,32 @@ namespace Pathoschild.DesignByContract.Tests.Framework
 		/***
 		** Properties (static)
 		***/
-		[TestReturnCase(true, typeof(Exception), ExpectedMessage = "value=True, friendly=StaticSword::get_OnProperty")]
-		[TestReturnCase(false, typeof(Exception), ExpectedMessage = "value=False, friendly=StaticSword::get_OnProperty")]
+		[TestReturnValueAnnotationCase(true, "StaticSword::get_OnProperty")]
+		[TestReturnValueAnnotationCase(false, "StaticSword::get_OnProperty")]
 		public bool OnProperty_StaticGet(bool value)
 		{
 			StaticSword._onProperty = value;
 			return StaticSword.OnProperty;
 		}
 
-		[TestReturnCase(true, typeof(Exception), ExpectedMessage = "parameter=value, value=True, friendly=StaticSword::set_OnProperty")]
-		[TestReturnCase(false, typeof(Exception), ExpectedMessage = "parameter=value, value=False, friendly=StaticSword::set_OnProperty")]
-		public bool OnProperty_StaticSet(bool value)
-		{
-			return StaticSword.OnProperty = value;
-		}
-
-		[TestReturnCase(true, typeof(Exception), ExpectedMessage = "value=True, friendly=StaticSword::get_PrivateProperty")]
-		[TestReturnCase(false, typeof(Exception), ExpectedMessage = "value=False, friendly=StaticSword::get_PrivateProperty")]
-		public bool OnProperty_StaticPrivateGet(bool value)
+		[TestReturnValueAnnotationCase(true, "StaticSword::get_PrivateProperty")]
+		[TestReturnValueAnnotationCase(false, "StaticSword::get_PrivateProperty")]
+		public bool OnProperty_StaticGetPrivate(bool value)
 		{
 			StaticSword._privateProperty = value;
 			return StaticSword.OnPrivateProperty;
 		}
 
-		[TestReturnCase(true, typeof(Exception), ExpectedMessage = "parameter=value, value=True, friendly=StaticSword::set_PrivateProperty")]
-		[TestReturnCase(false, typeof(Exception), ExpectedMessage = "parameter=value, value=False, friendly=StaticSword::set_PrivateProperty")]
-		public bool OnProperty_StaticPrivateSet(bool value)
+		[TestParameterAnnotationCase(true, "StaticSword::set_OnProperty")]
+		[TestParameterAnnotationCase(false, "StaticSword::set_OnProperty")]
+		public bool OnProperty_StaticSet(bool value)
+		{
+			return StaticSword.OnProperty = value;
+		}
+
+		[TestParameterAnnotationCase(true, "StaticSword::set_PrivateProperty")]
+		[TestParameterAnnotationCase(false, "StaticSword::set_PrivateProperty")]
+		public bool OnProperty_StaticSetPrivate(bool value)
 		{
 			return StaticSword.OnPrivateProperty = value;
 		}

@@ -15,7 +15,7 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 		public ParameterMetadata[] ParameterPreconditions { get; set; }
 
 		/// <summary>The contract requirements on a method or property return value.</summary>
-		public IReturnValuePrecondition[] ReturnValuePreconditions { get; set; }
+		public ReturnValueMetadata[] ReturnValuePreconditions { get; set; }
 
 		/// <summary>Whether the method has contract annotations to enforce.</summary>
 		public bool HasContract

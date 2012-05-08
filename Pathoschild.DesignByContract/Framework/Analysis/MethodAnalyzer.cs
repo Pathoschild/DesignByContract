@@ -26,8 +26,8 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 		{
 			// analyze method contract
 			string friendlyName = this.GetFriendlyName(method);
-			var parameterPreconditions = this.GetParameterPreconditions(method, inheritContract);
-			var returnPreconditions = this.GetReturnValuePreconditions(method, inheritContract);
+			var parameterPreconditions = this.GetParameterPreconditions(method, friendlyName, inheritContract);
+			var returnPreconditions = this.GetReturnValuePreconditions(method, friendlyName, inheritContract);
 
 			// analyze property contract
 			PropertyInfo property = this.GetProperty(method);
@@ -35,9 +35,9 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 			{
 				// cascade annotations on the property to the getter/setter methods
 				if (this.IsPropertyGetter(method))
-					returnPreconditions = returnPreconditions.Union(this.GetReturnValuePreconditions(property, inheritContract));
+					returnPreconditions = returnPreconditions.Union(this.GetReturnValuePreconditions(property, friendlyName, inheritContract));
 				else
-					parameterPreconditions = parameterPreconditions.Union(this.GetParameterPreconditions(property, inheritContract));
+					parameterPreconditions = parameterPreconditions.Union(this.GetParameterPreconditions(property, friendlyName, inheritContract));
 			}
 
 			// return analysis
@@ -71,13 +71,14 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 			return methodInfo != null && methodInfo.ReturnType != typeof(void);
 		}
 
+		/// <summary>Get whether a method is a property getter or setter.</summary>
+		/// <param name="method">The method to analyze.</param>
 		protected bool IsPropertyAccessor(MethodBase method)
 		{
 			MethodInfo methodInfo = method as MethodInfo;
 			return methodInfo != null
 				&& methodInfo.IsSpecialName
 				&& (method.Name.StartsWith("get_") || method.Name.StartsWith("set_"));
-
 		}
 
 		/// <summary>Get whether the method is a property setter.</summary>
@@ -149,47 +150,75 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 		***/
 		/// <summary>Get the contract requirements for each method parameter or property setter value.</summary>
 		/// <param name="method">The method to analyze.</param>
+		/// <param name="friendlyName">A human-readable name representing the method or property being validated for use in exception messages.</param>
 		/// <param name="inherit">Whether to inherit attributes from base types or interfaces.</param>
-		protected IEnumerable<ParameterMetadata> GetParameterPreconditions(MethodBase method, bool inherit)
+		protected IEnumerable<ParameterMetadata> GetParameterPreconditions(MethodBase method, string friendlyName, bool inherit)
 		{
 			return (
 				from metadata in method.GetParameters().Select((parameter, index) => new { parameter, index })
 				from IParameterPrecondition annotation in this.GetParameterAttributes<IParameterPrecondition>(metadata.parameter, inherit)
-				select new ParameterMetadata(metadata.parameter, metadata.index, annotation)
+				let messageFormat = this.GetMessageFormatForParameter(friendlyName, metadata.parameter.Name)
+				select new ParameterMetadata(metadata.parameter, metadata.index, annotation, messageFormat)
 			);
 		}
 
 		/// <summary>Get the contract requirements for the property setter value.</summary>
 		/// <param name="property">The property to analyze.</param>
+		/// <param name="friendlyName">A human-readable name representing the method or property being validated for use in exception messages.</param>
 		/// <param name="inherit">Whether to inherit attributes from base types or interfaces.</param>
-		protected IEnumerable<ParameterMetadata> GetParameterPreconditions(PropertyInfo property, bool inherit)
+		protected IEnumerable<ParameterMetadata> GetParameterPreconditions(PropertyInfo property, string friendlyName, bool inherit)
 		{
 			if (!property.CanWrite)
 				return new ParameterMetadata[0];
 
+			string messageFormat = this.GetMessageFormatForParameter(friendlyName, "value");
 			ParameterInfo parameter = property.GetSetMethod(true).GetParameters().First();
 			return (
 				from annotation in this.GetCustomAttributes<IParameterPrecondition>(property, inherit)
-				select new ParameterMetadata(parameter, 0, annotation)
+				select new ParameterMetadata(parameter, 0, annotation, messageFormat)
 			);
 		}
 
 		/// <summary>Get the contract requirements on a method or property return value.</summary>
 		/// <param name="method">The method to analyze.</param>
+		/// <param name="friendlyName">A human-readable name representing the method or property being validated for use in exception messages.</param>
 		/// <param name="inherit">Whether to inherit attributes from base types or interfaces.</param>
-		protected IEnumerable<IReturnValuePrecondition> GetReturnValuePreconditions(MethodBase method, bool inherit)
+		protected IEnumerable<ReturnValueMetadata> GetReturnValuePreconditions(MethodBase method, string friendlyName, bool inherit)
 		{
-			return this.HasReturnValue(method)
-				? this.GetMethodAttributes<IReturnValuePrecondition>(method as MethodInfo, inherit, true)
-				: new IReturnValuePrecondition[0];
+			if (!this.HasReturnValue(method))
+				return new ReturnValueMetadata[0];
+
+			string messageFormat = this.GetMessageFormatForReturn(friendlyName);
+			return this
+				.GetMethodAttributes<IReturnValuePrecondition>(method as MethodInfo, inherit, true)
+				.Select(attr => new ReturnValueMetadata(messageFormat, attr));
 		}
 
 		/// <summary>Get the contract requirements on a method or property return value.</summary>
 		/// <param name="property">The method to analyze.</param>
+		/// <param name="friendlyName">A human-readable name representing the method or property being validated for use in exception messages.</param>
 		/// <param name="inherit">Whether to inherit attributes from base types or interfaces.</param>
-		protected IEnumerable<IReturnValuePrecondition> GetReturnValuePreconditions(PropertyInfo property, bool inherit)
+		protected IEnumerable<ReturnValueMetadata> GetReturnValuePreconditions(PropertyInfo property, string friendlyName, bool inherit)
 		{
-			return this.GetCustomAttributes<IReturnValuePrecondition>(property, inherit);
+			string messageFormat = this.GetMessageFormatForReturn(friendlyName);
+			return this
+				.GetCustomAttributes<IReturnValuePrecondition>(property, inherit)
+				.Select(attr => new ReturnValueMetadata(messageFormat, attr));
+		}
+
+		/// <summary>Get the suggested exception message format for a return value contract violation, where {0} is the message.</summary>
+		/// <param name="friendlyMethodName">The friendly name of the method or property being validated.</param>
+		protected string GetMessageFormatForReturn(string friendlyMethodName)
+		{
+			return String.Concat("Contract violation on return value of method '", friendlyMethodName, "': {0}");
+		}
+
+		/// <summary>Get the suggested exception message format for a parameter contract violation, where {0} is the message.</summary>
+		/// <param name="friendlyMethodName">The friendly name of the method or property being validated.</param>
+		/// <param name="parameterName">The name of the parameter being validated.</param>
+		protected string GetMessageFormatForParameter(string friendlyMethodName, string parameterName)
+		{
+			return String.Concat("Contract violation on parameter '", parameterName, "' of method '", friendlyMethodName, "': {0}");
 		}
 	}
 }

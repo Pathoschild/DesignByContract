@@ -26,44 +26,23 @@ namespace Pathoschild.DesignByContract
 		}
 
 		/// <summary>Validate the requirement on a single method parameter or property setter value.</summary>
-		/// <param name="friendlyName">A human-readable name representing the method being validated for use in exception messages.</param>
-		/// <param name="parameter">Metadata about the input parameter to check.</param>
-		/// <param name="value">The value to check.</param>
+		/// <param name="parameter">The parameter metadata.</param>
+		/// <param name="value">The parameter value.</param>
 		/// <exception cref="ArgumentException">The contract requirement was not met.</exception>
-		public void OnParameterPrecondition(string friendlyName, ParameterMetadata parameter, object value)
+		public void OnParameterPrecondition(ParameterMetadata parameter, object value)
 		{
 			if (!this.HasType(value, this.Types))
-			{
-				throw new ArgumentException(
-					String.Format(
-						"The value must implement one of [{0}] for parameter '{1}' of method {2}. (It actually implements {3}.)",
-						String.Join(", ", this.Types.Select(p => p.FullName)),
-						parameter.Parameter.Name,
-						friendlyName,
-						value.GetType()
-					),
-					parameter.Parameter.Name
-				);
-			}
+				throw new ArgumentException(parameter.GetMessage(this.GetError(this.Types, value.GetType())), parameter.ParameterName);
 		}
 
 		/// <summary>Validate the requirement on a method or property return value.</summary>
-		/// <param name="friendlyName">A human-readable name representing the method being validated for use in exception messages.</param>
-		/// <param name="value">The value to check.</param>
+		/// <param name="returnValue">The return value metadata.</param>
+		/// <param name="value">The return value.</param>
 		/// <exception cref="InvalidOperationException">The contract requirement was not met.</exception>
-		public void OnReturnValuePrecondition(string friendlyName, object value)
+		public void OnReturnValuePrecondition(ReturnValueMetadata returnValue, object value)
 		{
 			if (!this.HasType(value, this.Types))
-			{
-				throw new InvalidOperationException(
-					String.Format(
-						"The return value must implement one of [{0}] for method {1}. (It actually implements {2}.)",
-						String.Join(", ", this.Types.Select(p => p.FullName)),
-						friendlyName,
-						value.GetType()
-					)
-				);
-			}
+				throw new InvalidOperationException(returnValue.GetMessage(this.GetError(this.Types, value.GetType())));
 		}
 
 
@@ -79,6 +58,18 @@ namespace Pathoschild.DesignByContract
 				return true; // type is irrelevant in this case
 			Type actualType = value.GetType();
 			return types.Any(type => type.IsAssignableFrom(actualType));
+		}
+
+		/// <summary>Get a contract violation error message.</summary>
+		/// <param name="types">The expected types that the value must implement.</param>
+		/// <param name="actualType">The type of the value.</param>
+		protected string GetError(Type[] types, Type actualType)
+		{
+			return String.Format(
+				"must implement one of [{0}] (actually implements {1})",
+				String.Join(", ", this.Types.Select(p => p.FullName)),
+				actualType
+			);
 		}
 	}
 }

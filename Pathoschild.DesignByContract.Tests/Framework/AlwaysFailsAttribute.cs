@@ -12,22 +12,22 @@ namespace Pathoschild.DesignByContract.Tests.Framework
 		** Public methods
 		*********/
 		/// <summary>Validate the requirement on a single method parameter or property setter value.</summary>
-		/// <param name="friendlyName">A human-readable name representing the method being validated for use in exception messages.</param>
-		/// <param name="parameter">Metadata about the input parameter to check.</param>
-		/// <param name="value">The value to check.</param>
-		/// <exception cref="Exception">The contract requirement was not met.</exception>
-		public void OnParameterPrecondition(string friendlyName, ParameterMetadata parameter, object value)
+		/// <param name="parameter">The parameter metadata.</param>
+		/// <param name="value">The parameter value.</param>
+		/// <exception cref="Exception">This exception is always thrown.</exception>
+		public void OnParameterPrecondition(ParameterMetadata parameter, object value)
 		{
-			throw new Exception(String.Format("parameter={0}, value={1}, friendly={2}", parameter.Parameter.Name, value, friendlyName));
+			throw new Exception(String.Format("parameter={0}, value={1}, format={2}", parameter.ParameterName, value, parameter.MessageFormat));
 		}
 
 		/// <summary>Validate the requirement on a method or property return value.</summary>
-		/// <param name="friendlyName">A human-readable name representing the method being validated for use in exception messages.</param>
-		/// <param name="value">The value to check.</param>
+		/// <param name="returnValue">The return value metadata.</param>
+		/// <param name="value">The return value.</param>
 		/// <exception cref="Exception">The contract requirement was not met.</exception>
-		public void OnReturnValuePrecondition(string friendlyName, object value)
+		/// <exception cref="Exception">This exception is always thrown.</exception>
+		public void OnReturnValuePrecondition(ReturnValueMetadata returnValue, object value)
 		{
-			throw new Exception(String.Format("value={0}, friendly={1}", value, friendlyName));
+			throw new Exception(String.Format("value={0}, format={1}", value, returnValue.MessageFormat));
 		}
 	}
 }

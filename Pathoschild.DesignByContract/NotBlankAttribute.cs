@@ -12,24 +12,23 @@ namespace Pathoschild.DesignByContract
 		** Public methods
 		*********/
 		/// <summary>Validate the requirement on a single method parameter or property setter value.</summary>
-		/// <param name="friendlyName">A human-readable name representing the method being validated for use in exception messages.</param>
-		/// <param name="parameter">Metadata about the input parameter to check.</param>
-		/// <param name="value">The value to check.</param>
-		/// <exception cref="Exception">The contract requirement was not met.</exception>
-		public void OnParameterPrecondition(string friendlyName, ParameterMetadata parameter, object value)
+		/// <param name="parameter">The parameter metadata.</param>
+		/// <param name="value">The parameter value.</param>
+		/// <exception cref="ArgumentException">The contract requirement was not met.</exception>
+		public void OnParameterPrecondition(ParameterMetadata parameter, object value)
 		{
 			if (this.IsWhitespace(value))
-				throw new ArgumentException(String.Format("The value cannot be blank or consist entirely of whitespace for parameter '{0}' of method {1}.", parameter.Parameter.Name, friendlyName), parameter.Parameter.Name);
+				throw new ArgumentException(parameter.GetMessage("cannot be blank or consist entirely of whitespace"), parameter.ParameterName);
 		}
 
 		/// <summary>Validate the requirement on a method or property return value.</summary>
-		/// <param name="friendlyName">A human-readable name representing the method being validated for use in exception messages.</param>
-		/// <param name="value">The value to check.</param>
-		/// <exception cref="Exception">The contract requirement was not met.</exception>
-		public void OnReturnValuePrecondition(string friendlyName, object value)
+		/// <param name="returnValue">The return value metadata.</param>
+		/// <param name="value">The return value.</param>
+		/// <exception cref="InvalidOperationException">The contract requirement was not met.</exception>
+		public void OnReturnValuePrecondition(ReturnValueMetadata returnValue, object value)
 		{
 			if (this.IsWhitespace(value))
-				throw new InvalidOperationException(String.Format("The return value cannot be blank or consist entirely of whitespace for method '{0}'.", friendlyName));
+				throw new InvalidOperationException(returnValue.GetMessage("cannot be blank or consist entirely of whitespace."));
 		}
 
 
