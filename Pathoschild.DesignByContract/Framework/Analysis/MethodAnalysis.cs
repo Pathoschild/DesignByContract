@@ -7,6 +7,9 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 	[Serializable]
 	public struct MethodAnalysis
 	{
+		/*********
+		** Accessors
+		*********/
 		/// <summary>A human-readable name representing the method or property being validated for use in exception messages.</summary>
 		/// <example>For example, the friendly name for a method named "Hit" on a class named "Sword" might be "Sword::Hit".</example>
 		public string FriendlyName { get; set; }
@@ -21,6 +24,22 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 		public bool HasContract
 		{
 			get { return this.ParameterPreconditions.Any() || this.ReturnValuePreconditions.Any(); }
+		}
+
+
+		/*********
+		** Public methods
+		*********/
+		/// <summary>Get a human-readable representation of the method analysis.</summary>
+		public override string ToString()
+		{
+			return String.Format(
+				"Analysis: {{ FriendlyName='{0}', HasContract={1}, ParameterPreconditions=[{2}], ReturnValuePreconditions=[{3}] }}",
+				this.FriendlyName,
+				this.HasContract,
+				String.Join(", ", this.ParameterPreconditions.Select(p => String.Format(@"{{Parameter='{0}', Annotation={1}}}", p.ParameterName, p.Annotation.GetType().Name))),
+				String.Join(", ", this.ReturnValuePreconditions.Select(p => String.Format(@"{{Annotation={0}}}", p.Annotation.GetType().Name)))
+			);
 		}
 	}
 }
