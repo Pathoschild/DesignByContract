@@ -1,5 +1,4 @@
 using System;
-using Pathoschild.DesignByContract.Exceptions;
 
 namespace Pathoschild.DesignByContract.Framework
 {

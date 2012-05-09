@@ -41,8 +41,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exceptions\ParameterContractException.cs" />
-    <Compile Include="Exceptions\ReturnValueContractException.cs" />
     <Compile Include="Framework\Analysis\IMethodAnalyzer.cs" />
     <Compile Include="Framework\Analysis\MethodAnalysis.cs" />
     <Compile Include="Framework\Analysis\MethodAnalyzer.cs" />
@@ -56,7 +54,9 @@
     <Compile Include="Framework\IReturnValuePrecondition.cs" />
     <Compile Include="NotNullAttribute.cs" />
     <Compile Include="Framework\ParameterMetadata.cs" />
+    <Compile Include="ParameterContractException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReturnValueContractException.cs" />
     <Compile Include="Shorthand\NotNullOrEmptyAttribute.cs" />
     <Compile Include="Shorthand\NotNullOrBlankAttribute.cs" />
   </ItemGroup>

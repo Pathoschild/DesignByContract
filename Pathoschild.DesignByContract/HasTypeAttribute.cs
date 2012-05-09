@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Pathoschild.DesignByContract.Exceptions;
 using Pathoschild.DesignByContract.Framework;
 
 namespace Pathoschild.DesignByContract

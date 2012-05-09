@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using Pathoschild.DesignByContract.Exceptions;
 
 namespace Pathoschild.DesignByContract.Tests
 {

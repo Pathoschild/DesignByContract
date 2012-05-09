@@ -1,5 +1,3 @@
-using Pathoschild.DesignByContract.Exceptions;
-
 namespace Pathoschild.DesignByContract.Framework
 {
 	// <summary>Represents a contract annotation for a requirement on a method parameter or property setter value.</summary>
