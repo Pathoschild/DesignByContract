@@ -13,19 +13,19 @@ namespace Pathoschild.DesignByContract.Tests.Attributes
 		/*********
 		** Unit tests
 		*********/
-		[TestReturnCase("a valid value")]
-		[TestReturnCase("   ")]
-		[TestReturnCase("", typeof(ArgumentException))]
-		[TestReturnCase(null)]
+		[ParameterContractTestCase("a valid value", false)]
+		[ParameterContractTestCase("   ", false)]
+		[ParameterContractTestCase("", true)]
+		[ParameterContractTestCase(null, false)]
 		public string OnParameter([NotEmpty] string value)
 		{
 			return value;
 		}
 
-		[TestReturnCase("a valid value")]
-		[TestReturnCase("   ")]
-		[TestReturnCase("", typeof(InvalidOperationException))]
-		[TestReturnCase(null)]
+		[ReturnValueContractTestCase("a valid value", false)]
+		[ReturnValueContractTestCase("   ", false)]
+		[ReturnValueContractTestCase("", true)]
+		[ReturnValueContractTestCase(null, false)]
 		[return: NotEmpty]
 		public string OnReturnValue(string value)
 		{

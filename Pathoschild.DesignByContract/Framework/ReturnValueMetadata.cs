@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 
 namespace Pathoschild.DesignByContract.Framework
 {
@@ -10,22 +11,27 @@ namespace Pathoschild.DesignByContract.Framework
 		/*********
 		** Accessors
 		*********/
-		/// <summary>The suggested exception message format, where {0} is the message.</summary>
-		public string MessageFormat { get; set; }
+		/// <summary>The name of the type.</summary>
+		public string TypeName { get; set; }
+
+		/// <summary>The name of the method.</summary>
+		public string MethodName { get; set; }
 
 		/// <summary>The contract annotation applied to the return value.</summary>
 		public IReturnValuePrecondition Annotation { get; set; }
+
 
 		/*********
 		** Public methods
 		*********/
 		/// <summary>Construct an instance.</summary>
-		/// <param name="messageFormat">The suggested exception message format, where {0} is the message.</param>
+		/// <param name="method">The method on which the return value is defined.</param>
 		/// <param name="annotation">The contract annotation applied to the return value.</param>
-		public ReturnValueMetadata(string messageFormat, IReturnValuePrecondition annotation)
+		public ReturnValueMetadata(MemberInfo method, IReturnValuePrecondition annotation)
 			: this()
 		{
-			this.MessageFormat = messageFormat;
+			this.TypeName = method.DeclaringType.Name;
+			this.MethodName = method.Name;
 			this.Annotation = annotation;
 		}
 	}

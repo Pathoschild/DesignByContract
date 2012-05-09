@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using NUnit.Framework;
 using Pathoschild.DesignByContract.Tests.Framework;
 
@@ -14,19 +13,19 @@ namespace Pathoschild.DesignByContract.Tests.Attributes
 		/*********
 		** Unit tests
 		*********/
-		[TestReturnCase("a valid value")]
-		[TestReturnCase(typeof(int))]
-		[TestReturnCase(42, typeof(ArgumentException))]
-		[TestReturnCase(null)]
+		[ParameterContractTestCase("a valid value", false)]
+		[ParameterContractTestCase(typeof(int), false)]
+		[ParameterContractTestCase(42, true)]
+		[ParameterContractTestCase(null, false)]
 		public object OnParameter([HasType(typeof(string), typeof(IReflect))] object value)
 		{
 			return value;
 		}
 
-		[TestReturnCase("a valid value")]
-		[TestReturnCase(typeof(int))]
-		[TestReturnCase(42, typeof(InvalidOperationException))]
-		[TestReturnCase(null)]
+		[ReturnValueContractTestCase("a valid value", false)]
+		[ReturnValueContractTestCase(typeof(int), false)]
+		[ReturnValueContractTestCase(42, true)]
+		[ReturnValueContractTestCase(null, false)]
 		[return: HasType(typeof(string), typeof(IReflect))]
 		public object OnReturnValue(object value)
 		{

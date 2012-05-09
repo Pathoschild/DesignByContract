@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Pathoschild.DesignByContract.Exceptions;
 using Pathoschild.DesignByContract.Framework;
 
 namespace Pathoschild.DesignByContract
@@ -28,21 +29,21 @@ namespace Pathoschild.DesignByContract
 		/// <summary>Validate the requirement on a single method parameter or property setter value.</summary>
 		/// <param name="parameter">The parameter metadata.</param>
 		/// <param name="value">The parameter value.</param>
-		/// <exception cref="ArgumentException">The contract requirement was not met.</exception>
+		/// <exception cref="ParameterContractException">The contract requirement was not met.</exception>
 		public void OnParameterPrecondition(ParameterMetadata parameter, object value)
 		{
 			if (!this.HasType(value, this.Types))
-				throw new ArgumentException(parameter.GetMessage(this.GetError(this.Types, value.GetType())), parameter.Name);
+				throw new ParameterContractException(parameter, this.GetError(value.GetType()));
 		}
 
 		/// <summary>Validate the requirement on a method or property return value.</summary>
 		/// <param name="returnValue">The return value metadata.</param>
 		/// <param name="value">The return value.</param>
-		/// <exception cref="InvalidOperationException">The contract requirement was not met.</exception>
+		/// <exception cref="ReturnValueContractException">The contract requirement was not met.</exception>
 		public void OnReturnValuePrecondition(ReturnValueMetadata returnValue, object value)
 		{
 			if (!this.HasType(value, this.Types))
-				throw new InvalidOperationException(returnValue.GetMessage(this.GetError(this.Types, value.GetType())));
+				throw new ReturnValueContractException(returnValue, this.GetError(value.GetType()));
 		}
 
 
@@ -61,9 +62,8 @@ namespace Pathoschild.DesignByContract
 		}
 
 		/// <summary>Get a contract violation error message.</summary>
-		/// <param name="types">The expected types that the value must implement.</param>
 		/// <param name="actualType">The type of the value.</param>
-		protected string GetError(Type[] types, Type actualType)
+		protected string GetError(Type actualType)
 		{
 			return String.Format(
 				"must implement one of [{0}] (actually implements {1})",

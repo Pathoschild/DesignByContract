@@ -25,9 +25,8 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 		public MethodAnalysis AnalyzeMethod(MethodBase method, bool inheritContract)
 		{
 			// analyze method contract
-			string friendlyName = this.GetFriendlyName(method);
-			var parameterPreconditions = this.GetParameterPreconditions(method, friendlyName, inheritContract);
-			var returnPreconditions = this.GetReturnValuePreconditions(method, friendlyName, inheritContract);
+			var parameterPreconditions = this.GetParameterPreconditions(method, inheritContract);
+			var returnPreconditions = this.GetReturnValuePreconditions(method, inheritContract);
 
 			// analyze property contract
 			PropertyInfo property = this.GetProperty(method);
@@ -35,15 +34,14 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 			{
 				// cascade annotations on the property to the getter/setter methods
 				if (this.IsPropertyGetter(method))
-					returnPreconditions = returnPreconditions.Union(this.GetReturnValuePreconditions(property, friendlyName, inheritContract));
+					returnPreconditions = returnPreconditions.Union(this.GetReturnValuePreconditions(property, inheritContract));
 				else
-					parameterPreconditions = parameterPreconditions.Union(this.GetParameterPreconditions(property, friendlyName, inheritContract));
+					parameterPreconditions = parameterPreconditions.Union(this.GetParameterPreconditions(property, inheritContract));
 			}
 
 			// return analysis
 			return new MethodAnalysis
 			{
-				FriendlyName = friendlyName,
 				ParameterPreconditions = parameterPreconditions.ToArray(),
 				ReturnValuePreconditions = returnPreconditions.ToArray()
 			};
@@ -56,13 +54,6 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 		/***
 		** Method analysis
 		***/
-		/// <summary>Get a human-readable name representing the method or property being validated for use in exception messages.</summary>
-		/// <param name="method">The method to analyze.</param>
-		protected string GetFriendlyName(MemberInfo method)
-		{
-			return String.Format("{0}::{1}", method.DeclaringType.Name, method.Name);
-		}
-
 		/// <summary>Get whether a method returns a value.</summary>
 		/// <param name="method">The method to analyze.</param>
 		protected bool HasReturnValue(MethodBase method)
@@ -150,75 +141,52 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 		***/
 		/// <summary>Get the contract requirements for each method parameter or property setter value.</summary>
 		/// <param name="method">The method to analyze.</param>
-		/// <param name="friendlyName">A human-readable name representing the method or property being validated for use in exception messages.</param>
 		/// <param name="inherit">Whether to inherit attributes from base types or interfaces.</param>
-		protected IEnumerable<ParameterMetadata> GetParameterPreconditions(MethodBase method, string friendlyName, bool inherit)
+		protected IEnumerable<ParameterMetadata> GetParameterPreconditions(MethodBase method, bool inherit)
 		{
 			return (
 				from parameter in method.GetParameters()
 				from IParameterPrecondition annotation in this.GetParameterAttributes<IParameterPrecondition>(parameter, inherit)
-				let messageFormat = this.GetMessageFormatForParameter(friendlyName, parameter.Name)
-				select new ParameterMetadata(parameter, annotation, messageFormat)
+				select new ParameterMetadata(parameter, annotation)
 			);
 		}
 
 		/// <summary>Get the contract requirements for the property setter value.</summary>
 		/// <param name="property">The property to analyze.</param>
-		/// <param name="friendlyName">A human-readable name representing the method or property being validated for use in exception messages.</param>
 		/// <param name="inherit">Whether to inherit attributes from base types or interfaces.</param>
-		protected IEnumerable<ParameterMetadata> GetParameterPreconditions(PropertyInfo property, string friendlyName, bool inherit)
+		protected IEnumerable<ParameterMetadata> GetParameterPreconditions(PropertyInfo property, bool inherit)
 		{
 			if (!property.CanWrite)
 				return new ParameterMetadata[0];
 
-			string messageFormat = this.GetMessageFormatForParameter(friendlyName, "value");
 			ParameterInfo parameter = property.GetSetMethod(true).GetParameters().Last(); // setter value (implicit last parameter)
 			return (
 				from annotation in this.GetCustomAttributes<IParameterPrecondition>(property, inherit)
-				select new ParameterMetadata(parameter, annotation, messageFormat)
+				select new ParameterMetadata(parameter, annotation, property.Name)
 			);
 		}
 
 		/// <summary>Get the contract requirements on a method or property return value.</summary>
 		/// <param name="method">The method to analyze.</param>
-		/// <param name="friendlyName">A human-readable name representing the method or property being validated for use in exception messages.</param>
 		/// <param name="inherit">Whether to inherit attributes from base types or interfaces.</param>
-		protected IEnumerable<ReturnValueMetadata> GetReturnValuePreconditions(MethodBase method, string friendlyName, bool inherit)
+		protected IEnumerable<ReturnValueMetadata> GetReturnValuePreconditions(MethodBase method, bool inherit)
 		{
 			if (!this.HasReturnValue(method))
 				return new ReturnValueMetadata[0];
 
-			string messageFormat = this.GetMessageFormatForReturn(friendlyName);
 			return this
 				.GetMethodAttributes<IReturnValuePrecondition>(method as MethodInfo, inherit, true)
-				.Select(attr => new ReturnValueMetadata(messageFormat, attr));
+				.Select(attr => new ReturnValueMetadata(method, attr));
 		}
 
 		/// <summary>Get the contract requirements on a method or property return value.</summary>
 		/// <param name="property">The method to analyze.</param>
-		/// <param name="friendlyName">A human-readable name representing the method or property being validated for use in exception messages.</param>
 		/// <param name="inherit">Whether to inherit attributes from base types or interfaces.</param>
-		protected IEnumerable<ReturnValueMetadata> GetReturnValuePreconditions(PropertyInfo property, string friendlyName, bool inherit)
+		protected IEnumerable<ReturnValueMetadata> GetReturnValuePreconditions(PropertyInfo property, bool inherit)
 		{
-			string messageFormat = this.GetMessageFormatForReturn(friendlyName);
 			return this
 				.GetCustomAttributes<IReturnValuePrecondition>(property, inherit)
-				.Select(attr => new ReturnValueMetadata(messageFormat, attr));
-		}
-
-		/// <summary>Get the suggested exception message format for a return value contract violation, where {0} is the message.</summary>
-		/// <param name="friendlyMethodName">The friendly name of the method or property being validated.</param>
-		protected string GetMessageFormatForReturn(string friendlyMethodName)
-		{
-			return String.Concat("Contract violation on return value of method '", friendlyMethodName, "': {0}");
-		}
-
-		/// <summary>Get the suggested exception message format for a parameter contract violation, where {0} is the message.</summary>
-		/// <param name="friendlyMethodName">The friendly name of the method or property being validated.</param>
-		/// <param name="parameterName">The name of the parameter being validated.</param>
-		protected string GetMessageFormatForParameter(string friendlyMethodName, string parameterName)
-		{
-			return String.Concat("Contract violation on parameter '", parameterName, "' of method '", friendlyMethodName, "': {0}");
+				.Select(attr => new ReturnValueMetadata(property, attr));
 		}
 	}
 }

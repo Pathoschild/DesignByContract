@@ -1,4 +1,5 @@
 ﻿using System;
+using Pathoschild.DesignByContract.Exceptions;
 using Pathoschild.DesignByContract.Framework;
 
 namespace Pathoschild.DesignByContract
@@ -14,21 +15,21 @@ namespace Pathoschild.DesignByContract
 		/// <summary>Validate the requirement on a single method parameter or property setter value.</summary>
 		/// <param name="parameter">The parameter metadata.</param>
 		/// <param name="value">The parameter value.</param>
-		/// <exception cref="ArgumentNullException">The contract requirement was not met.</exception>
+		/// <exception cref="ParameterContractException">The contract requirement was not met.</exception>
 		public void OnParameterPrecondition(ParameterMetadata parameter, object value)
 		{
 			if (value == null)
-				throw new ArgumentNullException(parameter.Name, parameter.GetMessage("cannot be null"));
+				throw new ParameterContractException(parameter, "cannot be null");
 		}
 
 		/// <summary>Validate the requirement on a method or property return value.</summary>
 		/// <param name="returnValue">The return value metadata.</param>
 		/// <param name="value">The return value.</param>
-		/// <exception cref="NullReferenceException">The contract requirement was not met.</exception>
+		/// <exception cref="ReturnValueContractException">The contract requirement was not met.</exception>
 		public void OnReturnValuePrecondition(ReturnValueMetadata returnValue, object value)
 		{
 			if (value == null)
-				throw new NullReferenceException(returnValue.GetMessage("cannot be null"));
+				throw new ReturnValueContractException(returnValue, "cannot be null");
 		}
 	}
 }

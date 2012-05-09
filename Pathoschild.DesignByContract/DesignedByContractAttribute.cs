@@ -55,13 +55,14 @@ namespace Pathoschild.DesignByContract
 		public override void OnEntry(MethodExecutionArgs args)
 		{
 			foreach (ParameterMetadata metadata in this.Metadata.ParameterPreconditions)
-				metadata.Annotation.OnParameterPrecondition(metadata, args.Arguments[metadata.Index]);
+				metadata.Annotation.OnParameterPrecondition(metadata, args.Arguments[metadata.Position]);
 		}
 
 		/// <summary>Method executed <b>after</b> the body of methods to which this aspect is applied, but only when the method successfully returns (i.e. when no exception flies out the method.).</summary>
 		/// <param name="args">Event arguments specifying which method is being executed and which are its arguments.</param>
 		public override void OnSuccess(MethodExecutionArgs args)
 		{
+			var method = args.Method;
 			foreach (ReturnValueMetadata metadata in this.Metadata.ReturnValuePreconditions)
 				metadata.Annotation.OnReturnValuePrecondition(metadata, args.ReturnValue);
 		}

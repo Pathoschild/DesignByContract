@@ -1,4 +1,4 @@
-using System;
+using Pathoschild.DesignByContract.Exceptions;
 
 namespace Pathoschild.DesignByContract.Framework
 {
@@ -8,7 +8,7 @@ namespace Pathoschild.DesignByContract.Framework
 		/// <summary>Validate the requirement on a single method parameter or property setter value.</summary>
 		/// <param name="parameter">The parameter metadata.</param>
 		/// <param name="value">The parameter value.</param>
-		/// <exception cref="Exception">The contract requirement was not met.</exception>
+		/// <exception cref="ParameterContractException">The contract requirement was not met.</exception>
 		void OnParameterPrecondition(ParameterMetadata parameter, object value);
 	}
 }

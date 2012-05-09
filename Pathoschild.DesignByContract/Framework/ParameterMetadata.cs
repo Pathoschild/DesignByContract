@@ -11,17 +11,20 @@ namespace Pathoschild.DesignByContract.Framework
 		/*********
 		** Accessors
 		*********/
+		/// <summary>The name of the type.</summary>
+		public string TypeName { get; set; }
+
+		/// <summary>The name of the method.</summary>
+		public string MethodName { get; set; }
+
 		/// <summary>The name of the annotated method parameter.</summary>
 		public string Name { get; set; }
 
 		/// <summary>The zero-based position of the parameter in the list of method parameters.</summary>
-		public int Index { get; set; }
+		public int Position { get; set; }
 
 		/// <summary>The contract annotation applied to the parameter.</summary>
 		public IParameterPrecondition Annotation { get; set; }
-
-		/// <summary>The suggested exception message format, where {0} is the message.</summary>
-		public string MessageFormat { get; set; }
 
 
 		/*********
@@ -30,14 +33,15 @@ namespace Pathoschild.DesignByContract.Framework
 		/// <summary>Construct an instance.</summary>
 		/// <param name="parameter">The annotated method parameter.</param>
 		/// <param name="annotation">The contract annotation applied to the parameter.</param>
-		/// <param name="messageFormat">The suggested exception message format, where {0} is the message.</param>
-		public ParameterMetadata(ParameterInfo parameter, IParameterPrecondition annotation, string messageFormat)
+		/// <param name="methodName">The method name if different from the underlying name. (This is primarily intended for cases where <see cref="MethodBase.IsSpecialName"/> is <c>true</c>).</param>
+		public ParameterMetadata(ParameterInfo parameter, IParameterPrecondition annotation, string methodName = null)
 			: this()
 		{
+			this.TypeName = parameter.Member.DeclaringType.Name;
+			this.MethodName = methodName ?? parameter.Member.Name;
 			this.Name = parameter.Name;
-			this.Index = parameter.Position;
+			this.Position = parameter.Position;
 			this.Annotation = annotation;
-			this.MessageFormat = messageFormat;
 		}
 	}
 }

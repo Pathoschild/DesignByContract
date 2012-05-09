@@ -10,10 +10,6 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 		/*********
 		** Accessors
 		*********/
-		/// <summary>A human-readable name representing the method or property being validated for use in exception messages.</summary>
-		/// <example>For example, the friendly name for a method named "Hit" on a class named "Sword" might be "Sword::Hit".</example>
-		public string FriendlyName { get; set; }
-
 		/// <summary>The contract requirements for each method parameter or property setter value.</summary>
 		public ParameterMetadata[] ParameterPreconditions { get; set; }
 
@@ -34,11 +30,10 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 		public override string ToString()
 		{
 			return String.Format(
-				"Analysis: {{ FriendlyName='{0}', HasContract={1}, ParameterPreconditions=[{2}], ReturnValuePreconditions=[{3}] }}",
-				this.FriendlyName,
+				"Analysis: {{ HasContract={0}, ParameterPreconditions=[{1}], ReturnValuePreconditions=[{2}] }}",
 				this.HasContract,
-				String.Join(", ", this.ParameterPreconditions.Select(p => String.Format(@"{{Parameter='{0}', Annotation={1}}}", p.Name, p.Annotation.GetType().Name))),
-				String.Join(", ", this.ReturnValuePreconditions.Select(p => String.Format(@"{{Annotation={0}}}", p.Annotation.GetType().Name)))
+				String.Join(", ", this.ParameterPreconditions.Select(p => String.Format(@"{{TypeName='{0}', MethodName='{1}', Parameter='{2}', Annotation={3}}}", p.TypeName, p.MethodName, p.Name, p.Annotation.GetType().Name))),
+				String.Join(", ", this.ReturnValuePreconditions.Select(p => String.Format(@"{{TypeName='{0}', MethodName='{1}', Annotation={2}}}", p.TypeName, p.MethodName, p.Annotation.GetType().Name)))
 			);
 		}
 	}

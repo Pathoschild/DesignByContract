@@ -55,7 +55,8 @@
     <Compile Include="Framework\Annotated\InterfaceSword.cs" />
     <Compile Include="Framework\DesignedByContractTests.cs" />
     <Compile Include="Framework\AlwaysFailsAttribute.cs" />
-    <Compile Include="TestReturnCaseAttribute.cs" />
+    <Compile Include="ParameterContractTestCaseAttribute.cs" />
+    <Compile Include="ReturnValueContractTestCaseAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

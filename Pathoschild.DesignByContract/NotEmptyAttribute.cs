@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using Pathoschild.DesignByContract.Exceptions;
 using Pathoschild.DesignByContract.Framework;
 
 namespace Pathoschild.DesignByContract
@@ -16,21 +17,21 @@ namespace Pathoschild.DesignByContract
 		/// <summary>Validate the requirement on a single method parameter or property setter value.</summary>
 		/// <param name="parameter">The parameter metadata.</param>
 		/// <param name="value">The parameter value.</param>
-		/// <exception cref="ArgumentException">The contract requirement was not met.</exception>
+		/// <exception cref="ParameterContractException">The contract requirement was not met.</exception>
 		public void OnParameterPrecondition(ParameterMetadata parameter, object value)
 		{
 			if (this.IsEmpty(value))
-				throw new ArgumentException(parameter.GetMessage("cannot be an empty enumeration"), parameter.Name);
+				throw new ParameterContractException(parameter, "cannot be an empty enumeration");
 		}
 
 		/// <summary>Validate the requirement on a method or property return value.</summary>
 		/// <param name="returnValue">The return value metadata.</param>
 		/// <param name="value">The return value.</param>
-		/// <exception cref="Exception">The contract requirement was not met.</exception>
+		/// <exception cref="ReturnValueContractException">The contract requirement was not met.</exception>
 		public void OnReturnValuePrecondition(ReturnValueMetadata returnValue, object value)
 		{
 			if (this.IsEmpty(value))
-				throw new InvalidOperationException(returnValue.GetMessage("cannot be an empty enumeration"));
+				throw new ReturnValueContractException(returnValue, "cannot be an empty enumeration");
 		}
 
 

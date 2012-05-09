@@ -1,4 +1,5 @@
 ﻿using System;
+using Pathoschild.DesignByContract.Exceptions;
 using Pathoschild.DesignByContract.Framework;
 
 namespace Pathoschild.DesignByContract
@@ -14,21 +15,21 @@ namespace Pathoschild.DesignByContract
 		/// <summary>Validate the requirement on a single method parameter or property setter value.</summary>
 		/// <param name="parameter">The parameter metadata.</param>
 		/// <param name="value">The parameter value.</param>
-		/// <exception cref="ArgumentException">The contract requirement was not met.</exception>
+		/// <exception cref="ParameterContractException">The contract requirement was not met.</exception>
 		public void OnParameterPrecondition(ParameterMetadata parameter, object value)
 		{
 			if (this.IsWhitespace(value))
-				throw new ArgumentException(parameter.GetMessage("cannot be blank or consist entirely of whitespace"), parameter.Name);
+				throw new ParameterContractException(parameter, "cannot be blank or consist entirely of whitespace");
 		}
 
 		/// <summary>Validate the requirement on a method or property return value.</summary>
 		/// <param name="returnValue">The return value metadata.</param>
 		/// <param name="value">The return value.</param>
-		/// <exception cref="InvalidOperationException">The contract requirement was not met.</exception>
+		/// <exception cref="ReturnValueContractException">The contract requirement was not met.</exception>
 		public void OnReturnValuePrecondition(ReturnValueMetadata returnValue, object value)
 		{
 			if (this.IsWhitespace(value))
-				throw new InvalidOperationException(returnValue.GetMessage("cannot be blank or consist entirely of whitespace."));
+				throw new ReturnValueContractException(returnValue, "cannot be blank or consist entirely of whitespace");
 		}
 
 

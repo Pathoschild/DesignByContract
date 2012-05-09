@@ -11,19 +11,19 @@ namespace Pathoschild.DesignByContract.Tests.Attributes.Shorthand
 	[DesignedByContract]
 	public class NotNullOrBlankTests
 	{
-		[TestReturnCase("a valid value")]
-		[TestReturnCase("   ", typeof(ArgumentException))]
-		[TestReturnCase("", typeof(ArgumentException))]
-		[TestReturnCase(null, typeof(ArgumentNullException))]
+		[ParameterContractTestCase("a valid value", false)]
+		[ParameterContractTestCase("   ", true)]
+		[ParameterContractTestCase("", true)]
+		[ParameterContractTestCase(null, true)]
 		public string OnParameter([NotNullOrBlank] string value)
 		{
 			return value;
 		}
 
-		[TestReturnCase("a valid value")]
-		[TestReturnCase("   ", typeof(InvalidOperationException))]
-		[TestReturnCase("", typeof(InvalidOperationException))]
-		[TestReturnCase(null, typeof(NullReferenceException))]
+		[ReturnValueContractTestCase("a valid value", false)]
+		[ReturnValueContractTestCase("   ", true)]
+		[ReturnValueContractTestCase("", true)]
+		[ReturnValueContractTestCase(null, true)]
 		[return: NotNullOrBlank]
 		public string OnReturnValue(string value)
 		{

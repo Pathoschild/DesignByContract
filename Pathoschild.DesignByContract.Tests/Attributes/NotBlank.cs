@@ -1,5 +1,4 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Pathoschild.DesignByContract.Tests.Framework;
 
 namespace Pathoschild.DesignByContract.Tests.Attributes
@@ -13,19 +12,19 @@ namespace Pathoschild.DesignByContract.Tests.Attributes
 		/*********
 		** Unit tests
 		*********/
-		[TestReturnCase("a valid value")]
-		[TestReturnCase("   ", typeof(ArgumentException))]
-		[TestReturnCase("", typeof(ArgumentException))]
-		[TestReturnCase(null)]
+		[ParameterContractTestCase("a valid value", false)]
+		[ParameterContractTestCase("   ", true)]
+		[ParameterContractTestCase("", true)]
+		[ParameterContractTestCase(null, false)]
 		public string OnParameter([NotBlank] string value)
 		{
 			return value;
 		}
 
-		[TestReturnCase("a valid value")]
-		[TestReturnCase("   ", typeof(InvalidOperationException))]
-		[TestReturnCase("", typeof(InvalidOperationException))]
-		[TestReturnCase(null)]
+		[ReturnValueContractTestCase("a valid value", false)]
+		[ReturnValueContractTestCase("   ", true)]
+		[ReturnValueContractTestCase("", true)]
+		[ReturnValueContractTestCase(null, false)]
 		[return: NotBlank]
 		public string OnReturnValue(string value)
 		{
