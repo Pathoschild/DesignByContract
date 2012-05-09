@@ -58,8 +58,6 @@
     <Compile Include="ParameterContractException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReturnValueContractException.cs" />
-    <Compile Include="Shorthand\NotNullOrEmptyAttribute.cs" />
-    <Compile Include="Shorthand\NotNullOrBlankAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

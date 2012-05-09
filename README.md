@@ -41,11 +41,6 @@ The following annotations are implemented out of the box. When a contract is vio
 * `[NotEmpty]` indicates that a value cannot be an empty sequence or string.
 * `[HasType]` indicates that a value must implement one of several types (with possible inheritance). This is intended to make code that must [unbox arguments](http://msdn.microsoft.com/en-us/library/yz2be5wk.aspx) more robust.
 
-The following convenience attributes are also available in the `Pathoschild.DesignByContract.Shorthand` namespace:
-
-* `[NotNullOrBlank]` is equivalent to `[NotNull, NotBlank]`.
-* `[NotNullOrEmpty]` is equivalent to `[NotNull, NotEmpty]`.
-
 ###Creating annotations
 You can create new annotations simply by creating [attributes](http://msdn.microsoft.com/en-us/library/z0w1kczw\(v=vs.80\).aspx) that implement one or more of the following interfaces (see an [example annotation](https://github.com/Pathoschild/Pathoschild.DesignByContract/blob/master/Pathoschild.DesignByContract/NotNullAttribute.cs)):
 
