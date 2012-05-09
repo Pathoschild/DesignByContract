@@ -1,7 +1,7 @@
 ﻿using System;
 using Pathoschild.DesignByContract.Framework;
 
-namespace Pathoschild.DesignByContract.Exceptions
+namespace Pathoschild.DesignByContract
 {
 	/// <summary>The exception that is thrown when a value provided to a method parameter or property setter violations its contract.</summary>
 	public class ReturnValueContractException : InvalidOperationException
