@@ -6,6 +6,10 @@
 		/*********
 		** Accessors
 		*********/
+		/// <summary>An annotated indexer.</summary>
+		[AlwaysFails]
+		bool this[bool key] { get; set; }
+
 		/// <summary>An annotated property.</summary>
 		[AlwaysFails]
 		bool OnProperty { get; set; }

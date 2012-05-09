@@ -19,6 +19,15 @@
 		/*********
 		** Accessors
 		*********/
+		/// <summary>An annotated indexer.</summary>
+		/// <remarks>The value can be set directly using <see cref="_onIndexer"/>.</remarks>
+		public bool this[bool key]
+		{
+			get { return this._onIndexer; }
+			set { this._onIndexer = value; }
+		}
+		public bool _onIndexer;
+
 		/// <summary>An annotated property.</summary>
 		/// <remarks>The value can be set directly using <see cref="_onProperty"/>.</remarks>
 		public bool OnProperty

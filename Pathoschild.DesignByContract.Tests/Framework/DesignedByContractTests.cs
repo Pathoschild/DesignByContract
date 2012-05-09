@@ -88,6 +88,8 @@ namespace Pathoschild.DesignByContract.Tests.Framework
 		[TestParameterAnnotationCase(false, "Sword::OnMethodParameter")]
 		public bool OnInterface_MethodParameter(bool value)
 		{
+			Assert.Inconclusive("Interface support is not yet implemented.");
+
 			ISword sword = new InterfaceSword();
 			return sword.OnMethodParameter(value);
 		}
@@ -96,6 +98,8 @@ namespace Pathoschild.DesignByContract.Tests.Framework
 		[TestReturnValueAnnotationCase(false, "Sword::OnMethodReturnValue")]
 		public bool OnInterface_MethodReturnValue(bool value)
 		{
+			Assert.Inconclusive("Interface support is not yet implemented.");
+
 			ISword sword = new InterfaceSword();
 			return sword.OnMethodReturnValue(value);
 		}
@@ -104,6 +108,8 @@ namespace Pathoschild.DesignByContract.Tests.Framework
 		[TestReturnValueAnnotationCase(false, "Sword::OnMethod")]
 		public bool OnInterface_Method(bool value)
 		{
+			Assert.Inconclusive("Interface support is not yet implemented.");
+
 			ISword sword = new InterfaceSword();
 			return sword.OnMethod(value);
 		}
@@ -156,6 +162,13 @@ namespace Pathoschild.DesignByContract.Tests.Framework
 			return new Sword { _onReadonlyProperty = value }.OnReadonlyProperty;
 		}
 
+		[TestReturnValueAnnotationCase(true, "Sword::get_Item")]
+		[TestReturnValueAnnotationCase(false, "Sword::get_Item")]
+		public bool OnClass_Property_GetIndexer(bool value)
+		{
+			return new Sword { _onIndexer = value }[value];
+		}
+
 		[TestParameterAnnotationCase(true, "Sword::set_OnProperty")]
 		[TestParameterAnnotationCase(false, "Sword::set_OnProperty")]
 		public bool OnClass_Property_Set(bool value)
@@ -177,6 +190,13 @@ namespace Pathoschild.DesignByContract.Tests.Framework
 			return new Sword().OnWriteonlyProperty = value;
 		}
 
+		[TestParameterAnnotationCase(true, "Sword::set_Item")]
+		[TestParameterAnnotationCase(false, "Sword::set_Item")]
+		public bool OnClass_Property_SetIndexer(bool value)
+		{
+			return new Sword()[value] = value;
+		}
+
 		/***
 		** Properties (interfaces)
 		***/
@@ -184,6 +204,7 @@ namespace Pathoschild.DesignByContract.Tests.Framework
 		[TestReturnValueAnnotationCase(false, "InterfaceSword::get_OnProperty")]
 		public bool OnInterface_Property_Get(bool value)
 		{
+			Assert.Inconclusive("Interface support is not yet implemented.");
 			return new InterfaceSword { _onProperty = value }.OnProperty;
 		}
 
@@ -191,6 +212,7 @@ namespace Pathoschild.DesignByContract.Tests.Framework
 		[TestReturnValueAnnotationCase(false, "InterfaceSword::get_PrivateProperty")]
 		public bool OnInterface_Property_GetPrivate(bool value)
 		{
+			Assert.Inconclusive("Interface support is not yet implemented.");
 			return new InterfaceSword { _privateProperty = value }.OnPrivateProperty;
 		}
 
@@ -198,13 +220,23 @@ namespace Pathoschild.DesignByContract.Tests.Framework
 		[TestReturnValueAnnotationCase(false, "InterfaceSword::get_OnReadonlyProperty")]
 		public bool OnInterface_Property_GetReadonly(bool value)
 		{
+			Assert.Inconclusive("Interface support is not yet implemented.");
 			return new InterfaceSword { _onReadonlyProperty = value }.OnReadonlyProperty;
+		}
+
+		[TestReturnValueAnnotationCase(true, "InterfaceSword::get_Item")]
+		[TestReturnValueAnnotationCase(false, "InterfaceSword::get_Item")]
+		public bool OnInterface_Property_GetIndexer(bool value)
+		{
+			Assert.Inconclusive("Interface support is not yet implemented.");
+			return new InterfaceSword { _onIndexer = value }[value];
 		}
 
 		[TestParameterAnnotationCase(true, "InterfaceSword::set_OnProperty")]
 		[TestParameterAnnotationCase(false, "InterfaceSword::set_OnProperty")]
 		public bool OnInterface_Property_Set(bool value)
 		{
+			Assert.Inconclusive("Interface support is not yet implemented.");
 			return new InterfaceSword().OnProperty = value;
 		}
 
@@ -212,6 +244,7 @@ namespace Pathoschild.DesignByContract.Tests.Framework
 		[TestParameterAnnotationCase(false, "InterfaceSword::set_PrivateProperty")]
 		public bool OnInterface_Property_SetPrivate(bool value)
 		{
+			Assert.Inconclusive("Interface support is not yet implemented.");
 			return new InterfaceSword().OnPrivateProperty = value;
 		}
 
@@ -219,7 +252,16 @@ namespace Pathoschild.DesignByContract.Tests.Framework
 		[TestParameterAnnotationCase(false, "InterfaceSword::set_OnWriteonlyProperty")]
 		public bool OnInterface_Property_SetWriteonly(bool value)
 		{
+			Assert.Inconclusive("Interface support is not yet implemented.");
 			return new InterfaceSword().OnWriteonlyProperty = value;
+		}
+
+		[TestReturnValueAnnotationCase(true, "InterfaceSword::set_Item")]
+		[TestReturnValueAnnotationCase(false, "InterfaceSword::set_Item")]
+		public bool OnInterface_Property_SetIndexer(bool value)
+		{
+			Assert.Inconclusive("Interface support is not yet implemented.");
+			return new InterfaceSword()[value] = value;
 		}
 
 		/***
