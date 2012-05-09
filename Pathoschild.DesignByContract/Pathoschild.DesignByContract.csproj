@@ -41,6 +41,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CanBeNullAttribute.cs" />
     <Compile Include="Framework\Analysis\IMethodAnalyzer.cs" />
     <Compile Include="Framework\Analysis\MethodAnalysis.cs" />
     <Compile Include="Framework\Analysis\MethodAnalyzer.cs" />
