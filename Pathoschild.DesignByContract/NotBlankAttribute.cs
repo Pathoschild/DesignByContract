@@ -18,7 +18,7 @@ namespace Pathoschild.DesignByContract
 		public void OnParameterPrecondition(ParameterMetadata parameter, object value)
 		{
 			if (this.IsWhitespace(value))
-				throw new ArgumentException(parameter.GetMessage("cannot be blank or consist entirely of whitespace"), parameter.ParameterName);
+				throw new ArgumentException(parameter.GetMessage("cannot be blank or consist entirely of whitespace"), parameter.Name);
 		}
 
 		/// <summary>Validate the requirement on a method or property return value.</summary>

@@ -19,7 +19,7 @@ namespace Pathoschild.DesignByContract.Shorthand
 		public new void OnParameterPrecondition(ParameterMetadata parameter, object value)
 		{
 			if (value == null)
-				throw new ArgumentNullException(parameter.ParameterName, parameter.GetMessage("cannot be null"));
+				throw new ArgumentNullException(parameter.Name, parameter.GetMessage("cannot be null"));
 			base.OnParameterPrecondition(parameter, value);
 		}
 

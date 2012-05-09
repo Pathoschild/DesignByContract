@@ -20,7 +20,7 @@ namespace Pathoschild.DesignByContract
 		public void OnParameterPrecondition(ParameterMetadata parameter, object value)
 		{
 			if (this.IsEmpty(value))
-				throw new ArgumentException(parameter.GetMessage("cannot be an empty enumeration"), parameter.ParameterName);
+				throw new ArgumentException(parameter.GetMessage("cannot be an empty enumeration"), parameter.Name);
 		}
 
 		/// <summary>Validate the requirement on a method or property return value.</summary>

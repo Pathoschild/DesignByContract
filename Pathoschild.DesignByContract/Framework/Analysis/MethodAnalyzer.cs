@@ -155,10 +155,10 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 		protected IEnumerable<ParameterMetadata> GetParameterPreconditions(MethodBase method, string friendlyName, bool inherit)
 		{
 			return (
-				from metadata in method.GetParameters().Select((parameter, index) => new { parameter, index })
-				from IParameterPrecondition annotation in this.GetParameterAttributes<IParameterPrecondition>(metadata.parameter, inherit)
-				let messageFormat = this.GetMessageFormatForParameter(friendlyName, metadata.parameter.Name)
-				select new ParameterMetadata(metadata.parameter, metadata.index, annotation, messageFormat)
+				from parameter in method.GetParameters()
+				from IParameterPrecondition annotation in this.GetParameterAttributes<IParameterPrecondition>(parameter, inherit)
+				let messageFormat = this.GetMessageFormatForParameter(friendlyName, parameter.Name)
+				select new ParameterMetadata(parameter, annotation, messageFormat)
 			);
 		}
 
@@ -172,10 +172,10 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 				return new ParameterMetadata[0];
 
 			string messageFormat = this.GetMessageFormatForParameter(friendlyName, "value");
-			ParameterInfo parameter = property.GetSetMethod(true).GetParameters().First();
+			ParameterInfo parameter = property.GetSetMethod(true).GetParameters().Last(); // setter value (implicit last parameter)
 			return (
 				from annotation in this.GetCustomAttributes<IParameterPrecondition>(property, inherit)
-				select new ParameterMetadata(parameter, 0, annotation, messageFormat)
+				select new ParameterMetadata(parameter, annotation, messageFormat)
 			);
 		}
 

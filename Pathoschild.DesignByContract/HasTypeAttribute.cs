@@ -32,7 +32,7 @@ namespace Pathoschild.DesignByContract
 		public void OnParameterPrecondition(ParameterMetadata parameter, object value)
 		{
 			if (!this.HasType(value, this.Types))
-				throw new ArgumentException(parameter.GetMessage(this.GetError(this.Types, value.GetType())), parameter.ParameterName);
+				throw new ArgumentException(parameter.GetMessage(this.GetError(this.Types, value.GetType())), parameter.Name);
 		}
 
 		/// <summary>Validate the requirement on a method or property return value.</summary>

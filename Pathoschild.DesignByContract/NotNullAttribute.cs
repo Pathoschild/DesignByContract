@@ -18,7 +18,7 @@ namespace Pathoschild.DesignByContract
 		public void OnParameterPrecondition(ParameterMetadata parameter, object value)
 		{
 			if (value == null)
-				throw new ArgumentNullException(parameter.ParameterName, parameter.GetMessage("cannot be null"));
+				throw new ArgumentNullException(parameter.Name, parameter.GetMessage("cannot be null"));
 		}
 
 		/// <summary>Validate the requirement on a method or property return value.</summary>

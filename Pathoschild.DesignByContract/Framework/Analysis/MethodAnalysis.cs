@@ -37,7 +37,7 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 				"Analysis: {{ FriendlyName='{0}', HasContract={1}, ParameterPreconditions=[{2}], ReturnValuePreconditions=[{3}] }}",
 				this.FriendlyName,
 				this.HasContract,
-				String.Join(", ", this.ParameterPreconditions.Select(p => String.Format(@"{{Parameter='{0}', Annotation={1}}}", p.ParameterName, p.Annotation.GetType().Name))),
+				String.Join(", ", this.ParameterPreconditions.Select(p => String.Format(@"{{Parameter='{0}', Annotation={1}}}", p.Name, p.Annotation.GetType().Name))),
 				String.Join(", ", this.ReturnValuePreconditions.Select(p => String.Format(@"{{Annotation={0}}}", p.Annotation.GetType().Name)))
 			);
 		}

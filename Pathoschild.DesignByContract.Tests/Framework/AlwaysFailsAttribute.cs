@@ -17,7 +17,7 @@ namespace Pathoschild.DesignByContract.Tests.Framework
 		/// <exception cref="Exception">This exception is always thrown.</exception>
 		public void OnParameterPrecondition(ParameterMetadata parameter, object value)
 		{
-			throw new Exception(String.Format("parameter={0}, value={1}, format={2}", parameter.ParameterName, value, parameter.MessageFormat));
+			throw new Exception(String.Format("parameter={0}, value={1}, format={2}", parameter.Name, value, parameter.MessageFormat));
 		}
 
 		/// <summary>Validate the requirement on a method or property return value.</summary>
