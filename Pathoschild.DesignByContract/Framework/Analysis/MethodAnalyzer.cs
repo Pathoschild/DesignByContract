@@ -85,12 +85,22 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 		/// <returns>Returns the method's property, or <c>null</c> if it is not an accessor.</returns>
 		protected PropertyInfo GetProperty(MethodBase method)
 		{
+			// validate
 			if (!this.IsPropertyAccessor(method))
 				return null;
+			if (!(method is MethodInfo))
+				return null;
 
+			// analyze method
+			MethodInfo methodInfo = (method as MethodInfo);
 			string name = method.Name.Remove(0, 4);
+			Type returnType = methodInfo.ReturnType;
+			Type[] argumentTypes = methodInfo.GetParameters().Select(p => p.ParameterType).ToArray();
+			const BindingFlags binding = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
+
+			// find matching property
 			return method.DeclaringType
-				.GetProperty(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+				.GetProperty(name, binding, null, returnType, argumentTypes, null);
 		}
 
 		/***
