@@ -40,7 +40,14 @@ namespace Pathoschild.DesignByContract
 		/// <remarks>This implementation analyzes the annotated method and prepares the conditions for runtime verification.</remarks>
 		public override void CompileTimeInitialize(MethodBase method, AspectInfo aspectInfo)
 		{
-			this.Metadata = this.Analyzer.AnalyzeMethod(method, this.InheritContracts);
+			try
+			{
+				this.Metadata = this.Analyzer.AnalyzeMethod(method, this.InheritContracts);
+			}
+			catch (Exception exception)
+			{
+				throw new InvalidOperationException(String.Format("Method analysis failed for method {0}::{1}.", method.DeclaringType.Name, method.Name), exception);
+			}
 		}
 
 		/// <summary>Method invoked at build time to determine whether code needs to be injected for this method.</summary>
@@ -62,7 +69,6 @@ namespace Pathoschild.DesignByContract
 		/// <param name="args">Event arguments specifying which method is being executed and which are its arguments.</param>
 		public override void OnSuccess(MethodExecutionArgs args)
 		{
-			var method = args.Method;
 			foreach (ReturnValueMetadata metadata in this.Metadata.ReturnValuePreconditions)
 				metadata.Annotation.OnReturnValuePrecondition(metadata, args.ReturnValue);
 		}
