@@ -1,5 +1,6 @@
 *.suo
 *.sln.docstates
+*.vsp
 Thumbs.db
 [Bb]in
 [Dd]ebug*/
