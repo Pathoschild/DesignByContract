@@ -85,14 +85,28 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 		/// <returns>Returns the method's property, or <c>null</c> if it is not an accessor.</returns>
 		protected PropertyInfo GetProperty(MethodBase method)
 		{
+			// analyze method
 			if (!this.IsPropertyAccessor(method) || !(method is MethodInfo))
 				return null;
-
 			MethodInfo methodInfo = method as MethodInfo;
 			bool isGet = this.IsPropertyGetter(methodInfo);
-			return method.DeclaringType
+
+			// get matching property
+			PropertyInfo[] properties = method.DeclaringType
 				.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
-				.SingleOrDefault(p => methodInfo == (isGet ? p.GetGetMethod(true) : p.GetSetMethod(true)));
+				.Where(p => methodInfo == (isGet ? p.GetGetMethod(true) : p.GetSetMethod(true)))
+				.ToArray();
+			if (properties.Length <= 1)
+				return properties.SingleOrDefault();
+
+			// disambiguate between properties (e.g., hidden properties)
+			PropertyInfo mostDerived = properties.First();
+			foreach (PropertyInfo property in properties)
+			{
+				if (property.DeclaringType.IsSubclassOf(mostDerived.DeclaringType))
+					mostDerived = property;
+			}
+			return mostDerived;
 		}
 
 		/***
