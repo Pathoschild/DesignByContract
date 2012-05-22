@@ -54,10 +54,8 @@ You can create new annotations simply by creating [attributes](http://msdn.micro
 ###Installation
 You only need to do the following for uncompiled projects containing annotations. You can reference their compiled DLLs without knowing about annotations or PostSharp, so using these annotations shouldn't affect redistribution. (These steps assume you're using Visual Studio.)
 
-1. [Purchase a license or request a free Starter License for PostSharp](http://www.sharpcrafters.com/purchase/compare).
-2. Use the [NuGet library package manager](https://nuget.codeplex.com/wikipage?title=Getting%20Started) to install the PostSharp package for the projects that will contain annotations.
-3. Download and compile `Pathoschild.DesignByContract`.
-4. Reference `Pathoschild.DesignByContract.dll` from each project that will contain annotations.
+1. Acquire a [free Starter License for PostSharp](http://www.sharpcrafters.com/purchase/compare).
+2. Use the [NuGet library package manager](https://nuget.codeplex.com/wikipage?title=Getting%20Started) to install the `Pathoschild.DesignByContract` package for the projects that will contain annotations.
 
 And that's it; you can now apply annotations like `[NotNull]` throughout your code.
 
@@ -87,4 +85,3 @@ The library performs heavy reflection at build time, so large projects or soluti
 * Switch to an open-source AOP framework like [SheepAspect](http://sheepaspect.org) (when it's more mature).
 * Support enforcing interface annotations.
 * Support optionally enforcing [.NET Data Annotations](http://msdn.microsoft.com/en-us/library/system.componentmodel.dataannotations.aspx).
-* Provide a NuGet package for `Pathoschild.DesignByContract`, which would automate installation steps 2–4.
