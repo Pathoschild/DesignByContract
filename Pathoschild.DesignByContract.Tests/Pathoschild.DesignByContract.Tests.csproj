@@ -65,7 +65,7 @@
       <Project>{4932305B-5F59-4C9F-969F-8E90E52FD1F2}</Project>
       <Name>Pathoschild.DesignByContract.Analysis</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Pathoschild.DesignByContract\Pathoschild.DesignByContract.csproj">
+    <ProjectReference Include="..\Pathoschild.DesignByContract.Annotations\Pathoschild.DesignByContract.csproj">
       <Project>{5875D86B-C2A4-44F0-8175-43C37AB3FC48}</Project>
       <Name>Pathoschild.DesignByContract</Name>
     </ProjectReference>

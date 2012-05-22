@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pathoschild.DesignByContract", "Pathoschild.DesignByContract\Pathoschild.DesignByContract.csproj", "{5875D86B-C2A4-44F0-8175-43C37AB3FC48}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pathoschild.DesignByContract", "Pathoschild.DesignByContract.Annotations\Pathoschild.DesignByContract.csproj", "{5875D86B-C2A4-44F0-8175-43C37AB3FC48}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{05AA7116-617C-4586-AD38-E227F0C0F76E}"
 	ProjectSection(SolutionItems) = preProject
