@@ -37,8 +37,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PostSharp">
-      <HintPath>..\packages\PostSharp.2.1.6.14\lib\net20\PostSharp.dll</HintPath>
+    <Reference Include="PostSharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+      <HintPath>..\packages\PostSharp.2.1.6.15\lib\net20\PostSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,6 +49,10 @@
     <Compile Include="Sword.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Pathoschild.DesignByContract.Analysis\Pathoschild.DesignByContract.Analysis.csproj">
+      <Project>{4932305B-5F59-4C9F-969F-8E90E52FD1F2}</Project>
+      <Name>Pathoschild.DesignByContract.Analysis</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Pathoschild.DesignByContract\Pathoschild.DesignByContract.csproj">
       <Project>{5875D86B-C2A4-44F0-8175-43C37AB3FC48}</Project>
       <Name>Pathoschild.DesignByContract</Name>
@@ -59,7 +63,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
-  <Import Project="..\packages\PostSharp.2.1.6.14\tools\PostSharp.targets" />
+  <Import Project="..\packages\PostSharp.2.1.6.15\tools\PostSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

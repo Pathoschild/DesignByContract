@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Pathoschild.DesignByContract")]
-[assembly: AssemblyDescription("[annotations only] A high-performance aspect-oriented argument validation framework built on top of the free edition of PostSharp which enables design-by-contract preconditions and postconditions.")]
+[assembly: AssemblyTitle("Pathoschild.DesignByContract.PostSharp")]
+[assembly: AssemblyDescription("A high-performance aspect-oriented argument validation framework built on top of the free edition of PostSharp which enables design-by-contract preconditions and postconditions.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Pathoschild.DesignByContract")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0c997043-1851-4f1a-8a22-2ae000d44d6a")]
+[assembly: Guid("d99a404d-5296-4d5c-956d-d882052936ef")]
 
 // Version information for an assembly consists of the following four values:
 //
