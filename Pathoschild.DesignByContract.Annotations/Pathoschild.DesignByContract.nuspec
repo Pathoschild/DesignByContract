@@ -3,7 +3,7 @@
 	<metadata>
 		<id>Pathoschild.DesignByContract.Annotations</id>
 		<title>Pathoschild.DesignByContract (annotations only)</title>
-		<version>0.1.3-alpha</version>
+		<version>0.1.4-alpha</version>
 		<authors>Jesse Plamondon-Willard</authors>
 		<summary>[annotations only] A high-performance aspect-oriented argument validation framework which enables design-by-contract preconditions and postconditions.</summary>
 		<description>(This is a subset of Pathoschild.DesignByContract that contains the annotations but does not enforce them.) A high-performance aspect-oriented argument validation framework built on top of the free edition of PostSharp which enables design-by-contract preconditions and postconditions. By annotating your code with attributes like [NotNull], you can eliminate boilerplate validation logic while enabling helpful exception messages and making your code much more robust and refactor-safe. These annotation attributes are also recognized by ReSharper when it has an equivalent annotation, which gives you real-time feedback on contract violations as you type.</description>

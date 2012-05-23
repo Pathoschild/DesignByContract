@@ -1,28 +1,33 @@
 ﻿using System;
 using System.Reflection;
+using System.Runtime.Serialization;
 using Pathoschild.DesignByContract.Framework;
 using Pathoschild.DesignByContract.Framework.Analysis;
 using PostSharp.Aspects;
+using PostSharp.Aspects.Configuration;
 
 namespace Pathoschild.DesignByContract
 {
 	/// <summary>Indicates that invocations of the target methods should be validated to ensure that their preconditions or postconditions are respected.</summary>
 	/// <remarks>This aspect analyzes annotated code at compile time, serializes the reflection metadata into its cache, and intercepts method calls at runtime to check conditions.</remarks>
 	[AttributeUsage(AttributeTargets.All)]
-	[Serializable]
+	[Serializable, DataContract]
+	[OnMethodBoundaryAspectConfiguration(SerializerType = typeof(JsonNetAspectSerializer))]
 	public class DesignedByContractAttribute : OnMethodBoundaryAspect
 	{
 		/*********
 		** Accessors
 		*********/
 		/// <summary>Whether to inherit contract annotations defined on a base class or interface.</summary>
+		[DataMember]
 		public bool InheritContracts { get; set; }
 
 		/// <summary>Contains contract metadata about an annotated method or property.</summary>
+		[DataMember]
 		public MethodAnalysis Metadata;
 
 		/// <summary>Reflects methods and properties for contract analysis.</summary>
-		[NonSerialized]
+		[NonSerialized, IgnoreDataMember]
 		protected IMethodAnalyzer Analyzer;
 
 
@@ -30,9 +35,8 @@ namespace Pathoschild.DesignByContract
 		** Public methods
 		*********/
 		/// <summary>Construct an annotation which indicates that invocations of the target methods should be validated to ensure that their preconditions or postconditions are respected.</summary>
-		/// <param name="inheritContract">Whether to inherit the contract annotations defined on a base class or interface.</param>
-		public DesignedByContractAttribute(bool inheritContract = true)
-			: this(MethodAnalyzer.Instance, inheritContract) { }
+		public DesignedByContractAttribute()
+			: this(MethodAnalyzer.Instance) { }
 
 		/// <summary>Method invoked at build time to initialize the instance fields of the current aspect. This method is invoked before any other build-time method.</summary>
 		/// <param name="method">Method to which the current aspect is applied</param>
@@ -80,7 +84,7 @@ namespace Pathoschild.DesignByContract
 		/// <summary>Construct an instance.</summary>
 		/// <param name="analyzer">Reflects methods and properties for contract analysis.</param>
 		/// <param name="inheritContract">Whether to inherit the contract annotations defined on a base class or interface.</param>
-		protected DesignedByContractAttribute(IMethodAnalyzer analyzer, bool inheritContract)
+		protected DesignedByContractAttribute(IMethodAnalyzer analyzer, bool inheritContract = true)
 		{
 			if (analyzer == null)
 				throw new ArgumentNullException("analyzer");

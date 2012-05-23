@@ -1,22 +1,26 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Pathoschild.DesignByContract.Framework.Analysis
 {
 	/// <summary>Contains contract metadata about an annotated method or property.</summary>
-	[Serializable]
+	[Serializable, DataContract]
 	public struct MethodAnalysis
 	{
 		/*********
 		** Accessors
 		*********/
 		/// <summary>The contract requirements for each method parameter or property setter value.</summary>
+		[DataMember]
 		public ParameterMetadata[] ParameterPreconditions { get; set; }
 
 		/// <summary>The contract requirements on a method or property return value.</summary>
+		[DataMember]
 		public ReturnValueMetadata[] ReturnValuePreconditions { get; set; }
 
 		/// <summary>Whether the method has contract annotations to enforce.</summary>
+		[IgnoreDataMember]
 		public bool HasContract
 		{
 			get { return this.ParameterPreconditions.Any() || this.ReturnValuePreconditions.Any(); }

@@ -1,29 +1,35 @@
 using System;
 using System.Reflection;
+using System.Runtime.Serialization;
 
 namespace Pathoschild.DesignByContract.Framework
 {
 	/// <summary>Represents a parameter annotated by a single contract annotation.</summary>
 	/// <remarks>If the parameter has multiple annotations, each annotation will have its own <see cref="ParameterMetadata"/> representation.</remarks>
-	[Serializable]
+	[Serializable, DataContract]
 	public struct ParameterMetadata
 	{
 		/*********
 		** Accessors
 		*********/
 		/// <summary>The name of the type.</summary>
+		[DataMember]
 		public string TypeName { get; set; }
 
 		/// <summary>The name of the method.</summary>
+		[DataMember]
 		public string MethodName { get; set; }
 
 		/// <summary>The name of the annotated method parameter.</summary>
+		[DataMember]
 		public string Name { get; set; }
 
 		/// <summary>The zero-based position of the parameter in the list of method parameters.</summary>
+		[DataMember]
 		public int Position { get; set; }
 
 		/// <summary>The contract annotation applied to the parameter.</summary>
+		[DataMember]
 		public IParameterPrecondition Annotation { get; set; }
 
 

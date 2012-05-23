@@ -1,6 +1,6 @@
 namespace Pathoschild.DesignByContract.Framework
 {
-	// <summary>Represents a contract annotation for a requirement on a method parameter or property setter value.</summary>
+	/// <summary>Represents a contract annotation for a requirement on a method parameter or property setter value.</summary>
 	public interface IParameterPrecondition
 	{
 		/// <summary>Validate the requirement on a single method parameter or property setter value.</summary>
