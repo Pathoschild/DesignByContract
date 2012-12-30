@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\HasType.cs" />
+    <Compile Include="Attributes\NotDefault.cs" />
     <Compile Include="Attributes\NotEmpty.cs" />
     <Compile Include="Attributes\NotBlank.cs" />
     <Compile Include="Attributes\NotNull.cs" />

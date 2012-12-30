@@ -45,6 +45,7 @@
     <Compile Include="Framework\ReturnValueMetadata.cs" />
     <Compile Include="HasTypeAttribute.cs" />
     <Compile Include="NotBlankAttribute.cs" />
+    <Compile Include="NotDefaultAttribute.cs" />
     <Compile Include="NotEmptyAttribute.cs" />
     <Compile Include="Framework\IParameterPrecondition.cs" />
     <Compile Include="Framework\IReturnValuePrecondition.cs" />
