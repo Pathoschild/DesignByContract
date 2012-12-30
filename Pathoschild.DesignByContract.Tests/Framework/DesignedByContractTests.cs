@@ -86,32 +86,26 @@ namespace Pathoschild.DesignByContract.Tests.Framework
 		/***
 		** Methods (interface)
 		***/
-		[TestParameterAnnotationCase(true, "Sword", "OnMethodParameter")]
-		[TestParameterAnnotationCase(false, "Sword", "OnMethodParameter")]
+		[TestParameterAnnotationCase(true, "ISword", "OnMethodParameter")]
+		[TestParameterAnnotationCase(false, "ISword", "OnMethodParameter")]
 		public bool OnInterface_MethodParameter(bool value)
 		{
-			Assert.Inconclusive("Interface support is not yet implemented.");
-
 			ISword sword = new InterfaceSword();
 			return sword.OnMethodParameter(value);
 		}
 
-		[TestReturnValueAnnotationCase(true, "Sword", "OnMethodReturnValue")]
-		[TestReturnValueAnnotationCase(false, "Sword", "OnMethodReturnValue")]
+		[TestReturnValueAnnotationCase(true, "ISword", "OnMethodReturnValue")]
+		[TestReturnValueAnnotationCase(false, "ISword", "OnMethodReturnValue")]
 		public bool OnInterface_MethodReturnValue(bool value)
 		{
-			Assert.Inconclusive("Interface support is not yet implemented.");
-
 			ISword sword = new InterfaceSword();
 			return sword.OnMethodReturnValue(value);
 		}
 
-		[TestReturnValueAnnotationCase(true, "Sword", "OnMethod")]
-		[TestReturnValueAnnotationCase(false, "Sword", "OnMethod")]
+		[TestReturnValueAnnotationCase(true, "ISword", "OnMethod")]
+		[TestReturnValueAnnotationCase(false, "ISword", "OnMethod")]
 		public bool OnInterface_Method(bool value)
 		{
-			Assert.Inconclusive("Interface support is not yet implemented.");
-
 			ISword sword = new InterfaceSword();
 			return sword.OnMethod(value);
 		}
@@ -202,67 +196,45 @@ namespace Pathoschild.DesignByContract.Tests.Framework
 		/***
 		** Properties (interfaces)
 		***/
-		[TestReturnValueAnnotationCase(true, "InterfaceSword", "OnProperty")]
-		[TestReturnValueAnnotationCase(false, "InterfaceSword", "OnProperty")]
+		[TestReturnValueAnnotationCase(true, "ISword", "OnProperty")]
+		[TestReturnValueAnnotationCase(false, "ISword", "OnProperty")]
 		public bool OnInterface_Property_Get(bool value)
 		{
-			Assert.Inconclusive("Interface support is not yet implemented.");
 			return new InterfaceSword { _onProperty = value }.OnProperty;
 		}
 
-		[TestReturnValueAnnotationCase(true, "InterfaceSword", "PrivateProperty")]
-		[TestReturnValueAnnotationCase(false, "InterfaceSword", "PrivateProperty")]
-		public bool OnInterface_Property_GetPrivate(bool value)
-		{
-			Assert.Inconclusive("Interface support is not yet implemented.");
-			return new InterfaceSword { _privateProperty = value }.OnPrivateProperty;
-		}
-
-		[TestReturnValueAnnotationCase(true, "InterfaceSword", "OnReadonlyProperty")]
-		[TestReturnValueAnnotationCase(false, "InterfaceSword", "OnReadonlyProperty")]
+		[TestReturnValueAnnotationCase(true, "ISword", "OnReadonlyProperty")]
+		[TestReturnValueAnnotationCase(false, "ISword", "OnReadonlyProperty")]
 		public bool OnInterface_Property_GetReadonly(bool value)
 		{
-			Assert.Inconclusive("Interface support is not yet implemented.");
 			return new InterfaceSword { _onReadonlyProperty = value }.OnReadonlyProperty;
 		}
 
-		[TestReturnValueAnnotationCase(true, "InterfaceSword", "Item")]
-		[TestReturnValueAnnotationCase(false, "InterfaceSword", "Item")]
+		[TestReturnValueAnnotationCase(true, "ISword", "Item")]
+		[TestReturnValueAnnotationCase(false, "ISword", "Item")]
 		public bool OnInterface_Property_GetIndexer(bool value)
 		{
-			Assert.Inconclusive("Interface support is not yet implemented.");
 			return new InterfaceSword { _onIndexer = value }[value];
 		}
 
-		[TestParameterAnnotationCase(true, "InterfaceSword", "OnProperty")]
-		[TestParameterAnnotationCase(false, "InterfaceSword", "OnProperty")]
+        [TestParameterAnnotationCase(true, "ISword", "OnProperty")]
+        [TestParameterAnnotationCase(false, "ISword", "OnProperty")]
 		public bool OnInterface_Property_Set(bool value)
 		{
-			Assert.Inconclusive("Interface support is not yet implemented.");
 			return new InterfaceSword().OnProperty = value;
 		}
 
-		[TestParameterAnnotationCase(true, "InterfaceSword", "PrivateProperty")]
-		[TestParameterAnnotationCase(false, "InterfaceSword", "PrivateProperty")]
-		public bool OnInterface_Property_SetPrivate(bool value)
-		{
-			Assert.Inconclusive("Interface support is not yet implemented.");
-			return new InterfaceSword().OnPrivateProperty = value;
-		}
-
-		[TestParameterAnnotationCase(true, "InterfaceSword", "OnWriteonlyProperty")]
-		[TestParameterAnnotationCase(false, "InterfaceSword", "OnWriteonlyProperty")]
+        [TestParameterAnnotationCase(true, "ISword", "OnWriteonlyProperty")]
+        [TestParameterAnnotationCase(false, "ISword", "OnWriteonlyProperty")]
 		public bool OnInterface_Property_SetWriteonly(bool value)
 		{
-			Assert.Inconclusive("Interface support is not yet implemented.");
 			return new InterfaceSword().OnWriteonlyProperty = value;
 		}
 
-		[TestReturnValueAnnotationCase(true, "InterfaceSword", "Item")]
-		[TestReturnValueAnnotationCase(false, "InterfaceSword", "Item")]
+        [TestParameterAnnotationCase(true, "ISword", "Item")]
+        [TestParameterAnnotationCase(false, "ISword", "Item")]
 		public bool OnInterface_Property_SetIndexer(bool value)
 		{
-			Assert.Inconclusive("Interface support is not yet implemented.");
 			return new InterfaceSword()[value] = value;
 		}
 

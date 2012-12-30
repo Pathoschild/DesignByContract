@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Newtonsoft.Json;
 using PostSharp.Aspects;
 using PostSharp.Aspects.Serialization;
@@ -25,6 +26,7 @@ namespace Pathoschild.DesignByContract
 		/// <summary>Serialize a set of aspects.</summary>
 		/// <param name="aspects">The aspects to serialize.</param>
 		/// <param name="stream">The stream to which to write.</param>
+		[Obsolete]
 		public override void Serialize(IAspect[] aspects, Stream stream)
 		{
 			using (StreamWriter writer = new StreamWriter(stream))
@@ -36,6 +38,7 @@ namespace Pathoschild.DesignByContract
 
 		/// <summary>Deserialize a set of aspects.</summary>
 		/// <param name="stream">The stream from which to read.</param>
+		[Obsolete]
 		public override IAspect[] Deserialize(Stream stream)
 		{
 			using (StreamReader reader = new StreamReader(stream))
