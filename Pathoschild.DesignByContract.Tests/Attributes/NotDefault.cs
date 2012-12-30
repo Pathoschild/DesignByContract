@@ -23,5 +23,22 @@ namespace Pathoschild.DesignByContract.Tests.Attributes
         {
             return value;
         }
+
+        [ParameterContractTestCase(5, false)]
+        [ParameterContractTestCase(0, true)]
+        [ParameterContractTestCase(null, true)]
+        public int? OnNullableParameter([NotDefault] int? value)
+        {
+            return value;
+        }
+
+        [ReturnValueContractTestCase(5, false)]
+        [ReturnValueContractTestCase(0, true)]
+        [ReturnValueContractTestCase(null, true)]
+        [return: NotDefault]
+        public int? OnNullableReturnValue(int? value)
+        {
+            return value;
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace Pathoschild.DesignByContract
         /// <exception cref="ParameterContractException">The contract requirement was not met.</exception>
         public void OnParameterPrecondition(ParameterMetadata parameter, object value)
         {
-            if (value == null || value.Equals(GetDefaultValue(value.GetType())))
+            if (value == null || IsDefaultValue(value))
                 throw new ParameterContractException(parameter, "cannot have default value");
         }
 
@@ -27,8 +27,14 @@ namespace Pathoschild.DesignByContract
         /// <exception cref="ReturnValueContractException">The contract requirement was not met.</exception>
         public void OnReturnValuePrecondition(ReturnValueMetadata returnValue, object value)
         {
-            if (value == null || value.Equals(GetDefaultValue(value.GetType())))
+            if (value == null || IsDefaultValue(value))
                 throw new ReturnValueContractException(returnValue, "cannot have default value");
+        }
+
+        private static bool IsDefaultValue(object value)
+        {
+            Type valueType = value.GetType();
+            return value.Equals(GetDefaultValue(valueType));
         }
 
         private static object GetDefaultValue(Type t)
