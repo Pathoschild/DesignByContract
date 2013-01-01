@@ -1,6 +1,6 @@
 ﻿namespace Pathoschild.DesignByContract.Tests.Framework.Annotated
 {
-	/// <summary>A static class whose annotations are entirely inherited by its interface.</summary>
+	/// <summary>A class whose annotations are entirely inherited by its interface.</summary>
 	[DesignedByContract]
 	public class InterfaceSword : ISword
 	{

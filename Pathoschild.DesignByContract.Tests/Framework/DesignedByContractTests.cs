@@ -217,22 +217,22 @@ namespace Pathoschild.DesignByContract.Tests.Framework
 			return new InterfaceSword { _onIndexer = value }[value];
 		}
 
-        [TestParameterAnnotationCase(true, "ISword", "OnProperty")]
-        [TestParameterAnnotationCase(false, "ISword", "OnProperty")]
+		[TestParameterAnnotationCase(true, "ISword", "OnProperty")]
+		[TestParameterAnnotationCase(false, "ISword", "OnProperty")]
 		public bool OnInterface_Property_Set(bool value)
 		{
 			return new InterfaceSword().OnProperty = value;
 		}
 
-        [TestParameterAnnotationCase(true, "ISword", "OnWriteonlyProperty")]
-        [TestParameterAnnotationCase(false, "ISword", "OnWriteonlyProperty")]
+		[TestParameterAnnotationCase(true, "ISword", "OnWriteonlyProperty")]
+		[TestParameterAnnotationCase(false, "ISword", "OnWriteonlyProperty")]
 		public bool OnInterface_Property_SetWriteonly(bool value)
 		{
 			return new InterfaceSword().OnWriteonlyProperty = value;
 		}
 
-        [TestParameterAnnotationCase(true, "ISword", "Item")]
-        [TestParameterAnnotationCase(false, "ISword", "Item")]
+		[TestParameterAnnotationCase(true, "ISword", "Item")]
+		[TestParameterAnnotationCase(false, "ISword", "Item")]
 		public bool OnInterface_Property_SetIndexer(bool value)
 		{
 			return new InterfaceSword()[value] = value;

@@ -2,8 +2,6 @@
 
 The library uses [PostSharp](http://www.sharpcrafters.com/) for its compile-time aspect weaving, a proprietary and commercial framework that requires a license for use (the [free Starter License](http://www.sharpcrafters.com/purchase/compare) is sufficient). A license is only required to build the project containing the annotations — there are no licensing requirements to reference the compiled project. The eventual goal is to migrate to an open-source alternative like [SheepAspect](http://sheepaspect.org) when it's mature enough.
 
-**This is an early proof of concept, and shouldn't really be used in production yet. (We're using it in production, but we're _crazy_.)**
-
 ##Usage
 This library lets you define a contract on code using annotation attributes like `[NotNull]`. You can generally apply these to methods, properties, return values, and parameters. You then enable contract validation by applying `[DesignedByContract]` to the class (or any other unit of code).
 
@@ -43,6 +41,7 @@ The following annotations are implemented out of the box. When a contract is vio
 * `[NotNull]` indicates that a value cannot be `null`.
 * `[NotBlank]` indicates that a value cannot be an empty string or one consisting entirely of whitespace.
 * `[NotEmpty]` indicates that a value cannot be an empty sequence or string.
+* `[NotDefault]` indicates that a value cannot be `null` or equal to the default value for its type (e.g., 0 for an integer).
 * `[HasType]` indicates that a value must implement one of several types (with possible inheritance). This is intended to make code that must [unbox arguments](http://msdn.microsoft.com/en-us/library/yz2be5wk.aspx) more robust.
 
 ###Creating annotations
@@ -86,5 +85,4 @@ This package doesn't require full trust, and should work correctly in medium or 
 
 ##Future to-do
 * Switch to an open-source AOP framework like [SheepAspect](http://sheepaspect.org) (when it's more mature).
-* Support enforcing interface annotations.
 * Support optionally enforcing [.NET Data Annotations](http://msdn.microsoft.com/en-us/library/system.componentmodel.dataannotations.aspx).
