@@ -167,9 +167,11 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 			IEnumerable<ParameterInfo> parameters = method.GetParameters();
 			if (inherit)
 			{
-				MethodInfo interfaceMethod = this.GetInterfaceDefinition(method) as MethodInfo;
-				if (interfaceMethod != null)
-					parameters = interfaceMethod.GetParameters().Union(parameters);
+				IEnumerable<ParameterInfo> interfaceParameters = this
+					.GetInterfaceDefinitions(method)
+					.OfType<MethodInfo>()
+					.SelectMany(m => m.GetParameters());
+				parameters = parameters.Union(interfaceParameters);
 			}
 
 			// select annotations
@@ -187,9 +189,11 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 			IEnumerable<ParameterMetadata> annotations = this.GetAnnotations(property, inherit);
 			if (inherit)
 			{
-				PropertyInfo interfaceProperty = this.GetInterfaceDefinition(property) as PropertyInfo;
-				if (interfaceProperty != null)
-					annotations = this.GetAnnotations(interfaceProperty, false).Union(annotations);
+				IEnumerable<ParameterMetadata> interfaceAnnotations = this
+					.GetInterfaceDefinitions(property)
+					.OfType<PropertyInfo>()
+					.SelectMany(m => this.GetAnnotations(m, false));
+				annotations = annotations.Union(interfaceAnnotations);
 			}
 			return annotations;
 		}
@@ -207,12 +211,14 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 				.Select(attr => new ReturnValueMetadata(method, attr));
 			if (inherit)
 			{
-				MethodInfo interfaceMethod = GetInterfaceDefinition(method) as MethodInfo;
-				if (interfaceMethod != null)
-					annotations = this
-						.GetMethodAttributes<IReturnValuePrecondition>(interfaceMethod, false, true)
-						.Select(attr => new ReturnValueMetadata(interfaceMethod, attr))
-						.Union(annotations);
+				IEnumerable<ReturnValueMetadata> interfaceAnnotations = this
+					.GetInterfaceDefinitions(method)
+					.OfType<MethodInfo>()
+					.SelectMany(m => this
+						.GetMethodAttributes<IReturnValuePrecondition>(m, false, true)
+						.Select(attr => new ReturnValueMetadata(m, attr))
+					);
+				annotations = annotations.Union(interfaceAnnotations);
 			}
 
 			return annotations;
@@ -228,12 +234,13 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 				.Select(attr => new ReturnValueMetadata(property, attr));
 			if (inherit)
 			{
-				MemberInfo interfaceMethod = GetInterfaceDefinition(property);
-				if (interfaceMethod != null)
-					annotations = this
-						.GetCustomAttributes<IReturnValuePrecondition>(interfaceMethod, false)
-						.Select(attr => new ReturnValueMetadata(interfaceMethod, attr))
-						.Union(annotations);
+				IEnumerable<ReturnValueMetadata> interfaceAnnotations = this
+					.GetInterfaceDefinitions(property)
+					.SelectMany(m => this
+						.GetCustomAttributes<IReturnValuePrecondition>(m, false)
+						.Select(attr => new ReturnValueMetadata(m, attr))
+					);
+				annotations = annotations.Union(interfaceAnnotations);
 			}
 
 			return annotations;
@@ -267,8 +274,7 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 		/// <summary>Get the interface definition for an implemented method.</summary>
 		/// <param name="member">The implemented method.</param>
 		/// <returns>Returns the interface definition for an implemented method, or <c>null</c> if none was found.</returns>
-		[CanBeNull]
-		protected MemberInfo GetInterfaceDefinition(MemberInfo member)
+		protected IEnumerable<MemberInfo> GetInterfaceDefinitions(MemberInfo member)
 		{
 			Type methodType = member.ReflectedType;
 			return methodType
@@ -282,8 +288,7 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 						return (MemberInfo)this.GetProperty(m);
 					return m;
 				})
-				.Distinct()
-				.SingleOrDefault();
+				.Distinct();
 		}
 
 		/// <summary>Get whether two members have matching return types and parameters.</summary>
