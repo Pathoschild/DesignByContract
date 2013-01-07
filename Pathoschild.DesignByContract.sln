@@ -1,7 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pathoschild.DesignByContract.Annotations", "Pathoschild.DesignByContract.Annotations\Pathoschild.DesignByContract.Annotations.csproj", "{5875D86B-C2A4-44F0-8175-43C37AB3FC48}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Annotations", "Annotations\Annotations.csproj", "{5875D86B-C2A4-44F0-8175-43C37AB3FC48}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{05AA7116-617C-4586-AD38-E227F0C0F76E}"
 	ProjectSection(SolutionItems) = preProject
@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{05AA71
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pathoschild.DesignByContract.Tests", "Pathoschild.DesignByContract.Tests\Pathoschild.DesignByContract.Tests.csproj", "{5E076E37-BFCB-4689-912A-32691278C04A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{5E076E37-BFCB-4689-912A-32691278C04A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scaffolding", "Scaffolding", "{311529F9-F143-40EE-81A8-AA359B87A797}"
 	ProjectSection(SolutionItems) = preProject
@@ -17,9 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scaffolding", "Scaffolding"
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pathoschild.DesignByContract.Demo", "Pathoschild.DesignByContract.Demo\Pathoschild.DesignByContract.Demo.csproj", "{DC4EC212-0755-4B7D-86DF-DFB4ABF47125}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", "{DC4EC212-0755-4B7D-86DF-DFB4ABF47125}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pathoschild.DesignByContract.Analysis", "Pathoschild.DesignByContract.Analysis\Pathoschild.DesignByContract.Analysis.csproj", "{4932305B-5F59-4C9F-969F-8E90E52FD1F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Analysis", "Analysis\Analysis.csproj", "{4932305B-5F59-4C9F-969F-8E90E52FD1F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

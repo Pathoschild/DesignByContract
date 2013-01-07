@@ -3,6 +3,7 @@
 *.sln.docstates
 *.user
 *.vsp
+package.ps1
 Thumbs.db
 [Bb]in
 [Dd]ebug*/
