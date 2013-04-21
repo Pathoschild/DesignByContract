@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
 using Pathoschild.DesignByContract.Framework;
 using Pathoschild.DesignByContract.Framework.Analysis;
+using PostSharp;
 using PostSharp.Aspects;
 using PostSharp.Aspects.Configuration;
+using PostSharp.Extensibility;
 
 namespace Pathoschild.DesignByContract
 {
@@ -58,7 +61,13 @@ namespace Pathoschild.DesignByContract
 		/// <param name="method">Method to which the current aspect is applied</param>
 		public override bool CompileTimeValidate(MethodBase method)
 		{
-			return this.Metadata.HasContract;
+		    IEnumerable<string> contractErrorList;
+		    bool isApplicable = Metadata.DetermineIfContractIsApplicable(out contractErrorList);
+            foreach(var error in contractErrorList)
+            {
+                Message.Write(MessageLocation.Of(method), SeverityType.Error, "DBC01", error);
+            }
+			return this.Metadata.HasContract && isApplicable;
 		}
 
 		/// <summary>Method executed <b>before</b> the body of methods to which this aspect is applied.</summary>

@@ -6,6 +6,7 @@ namespace Pathoschild.DesignByContract
 	/// <summary>A contract precondition that a value not be <c>null</c>.</summary>
 	[AttributeUsage((AttributeTargets)(ConditionTargets.Parameter | ConditionTargets.ReturnValue))]
 	[Serializable]
+    [AppliesToReferenceTypes]
 	public class NotNullAttribute : Attribute, IParameterPrecondition, IReturnValuePrecondition
 	{
 		/*********

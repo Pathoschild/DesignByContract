@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CanBeNullAttribute.cs" />
+    <Compile Include="NotNullOrEmptyAttribute.cs" />
+    <Compile Include="Framework\AppliesToAttribute.cs" />
     <Compile Include="Framework\ConditionTargets.cs" />
     <Compile Include="Framework\ReturnValueMetadata.cs" />
     <Compile Include="HasTypeAttribute.cs" />
@@ -49,6 +51,7 @@
     <Compile Include="NotEmptyAttribute.cs" />
     <Compile Include="Framework\IParameterPrecondition.cs" />
     <Compile Include="Framework\IReturnValuePrecondition.cs" />
+    <Compile Include="NotNullOrWhiteSpaceAttribute.cs" />
     <Compile Include="NotNullAttribute.cs" />
     <Compile Include="Framework\ParameterMetadata.cs" />
     <Compile Include="ParameterContractException.cs" />

@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using Pathoschild.DesignByContract.Framework;
 
 namespace Pathoschild.DesignByContract
 {
-    /// <summary>
-    /// A contract precondition that a value not be an empty enumeration.
-    /// </summary>
+    /// <summary>A contract precondition that a value not be a string that is null or consists entirely of whitespace.</summary>
     [AttributeUsage((AttributeTargets)(ConditionTargets.Parameter | ConditionTargets.ReturnValue))]
     [Serializable]
-    // This method was only checking for empty collections before but in the tests
-    // it was also applied to strings! the tests passed because IsEmpty(string) returns false
-    [AppliesTo(typeof(IEnumerable<>))] 
-    [Obsolete("This attribute is now equivalent to NotNullOrEmpty")]
-    public class NotEmptyAttribute : Attribute, IParameterPrecondition, IReturnValuePrecondition
+    [AppliesTo(typeof(string))]
+    public class NotNullOrWhiteSpaceAttribute : Attribute, IParameterPrecondition, IReturnValuePrecondition
     {
         /*********
         ** Public methods
@@ -26,8 +18,8 @@ namespace Pathoschild.DesignByContract
         /// <exception cref="ParameterContractException">The contract requirement was not met.</exception>
         public void OnParameterPrecondition(ParameterMetadata parameter, object value)
         {
-            if (this.IsEmpty(value))
-                throw new ParameterContractException(parameter, "cannot be an empty enumeration");
+            if (this.IsWhitespace(value))
+                throw new ParameterContractException(parameter, "cannot be blank or consist entirely of whitespace");
         }
 
         /// <summary>Validate the requirement on a method or property return value.</summary>
@@ -36,19 +28,18 @@ namespace Pathoschild.DesignByContract
         /// <exception cref="ReturnValueContractException">The contract requirement was not met.</exception>
         public void OnReturnValuePrecondition(ReturnValueMetadata returnValue, object value)
         {
-            if (this.IsEmpty(value))
-                throw new ReturnValueContractException(returnValue, "cannot be an empty enumeration");
+            if (this.IsWhitespace(value))
+                throw new ReturnValueContractException(returnValue, "cannot be blank or consist entirely of whitespace");
         }
-
 
         /*********
         ** Protected methods
         *********/
-        /// <summary>Get whether the value is an empty enumeration.</summary>
+        /// <summary>Get whether the value is a string which is null or consists entirely of whitespace.</summary>
         /// <param name="value">The value to check.</param>
-        protected bool IsEmpty(object value)
+        protected bool IsWhitespace(object value)
         {
-            return value != null && value is IEnumerable && !(value as IEnumerable).Cast<object>().Any();
+            return string.IsNullOrWhiteSpace((string)value);
         }
     }
 }

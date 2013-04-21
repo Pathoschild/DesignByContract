@@ -16,6 +16,12 @@ namespace Pathoschild.DesignByContract.Framework
 		[DataMember]
 		public string TypeName { get; set; }
 
+        /// <summary>
+        /// The full name of the returned value's type
+        /// </summary>
+        [DataMember]
+        public string ReturnFullTypeName { get; set; }
+
 		/// <summary>The name of the method.</summary>
 		[DataMember]
 		public string MethodName { get; set; }
@@ -35,8 +41,20 @@ namespace Pathoschild.DesignByContract.Framework
 			: this()
 		{
 			this.TypeName = method.DeclaringType.Name;
+            this.ReturnFullTypeName = GetReturnType(method).FullName;
 			this.MethodName = method.Name;
 			this.Annotation = annotation;
 		}
+
+        private static Type GetReturnType(MemberInfo method)
+        {
+            if (method is MethodInfo)
+                return (method as MethodInfo).ReturnType;
+            if (method is PropertyInfo)
+                return (method as PropertyInfo).PropertyType;
+            if (method is FieldInfo)
+                return (method as FieldInfo).FieldType;
+            throw new InvalidOperationException();
+        }
 	}
 }

@@ -6,6 +6,8 @@ namespace Pathoschild.DesignByContract
 	/// <summary>A contract precondition that a value not be a string that consists entirely of whitespace.</summary>
 	[AttributeUsage((AttributeTargets)(ConditionTargets.Parameter | ConditionTargets.ReturnValue))]
 	[Serializable]
+    [AppliesTo(typeof(string))]
+    [Obsolete("This attribute is now equivalent to NotNullOrWhitespace")]
 	public class NotBlankAttribute : Attribute, IParameterPrecondition, IReturnValuePrecondition
 	{
 		/*********
@@ -30,7 +32,6 @@ namespace Pathoschild.DesignByContract
 			if (this.IsWhitespace(value))
 				throw new ReturnValueContractException(returnValue, "cannot be blank or consist entirely of whitespace");
 		}
-
 
 		/*********
 		** Protected methods
