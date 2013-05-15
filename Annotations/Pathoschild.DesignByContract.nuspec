@@ -12,6 +12,6 @@
     <projectUrl>https://github.com/Pathoschild/Pathoschild.DesignByContract#readme</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <dependencies />
-    <releaseNotes>Added compile-time validation; added [NotNullOrEmpty] and [NotNullOrBlank] attributes.</releaseNotes>
+    <releaseNotes>Added [NotNullOrEmpty] and [NotNullOrBlank] attributes.</releaseNotes>
   </metadata>
 </package>

@@ -1,23 +1,23 @@
 <?xml version="1.0"?>
 <package>
-	<metadata>
-		<id>Pathoschild.DesignByContract</id>
-		<title>Pathoschild.DesignByContract</title>
-		<version>1.0.0</version>
-		<authors>Jesse Plamondon-Willard</authors>
-		<summary>Enables code contracts on methods and properties. By annotating your code with attributes like [NotNull], you can remove common validation code and provide helpful exception messages, making your code more robust and refactor-safe.</summary>
-		<description>Enables code contracts on methods and properties. By annotating your code with attributes like [NotNull], you can remove common validation code and provide helpful exception messages, making your code more robust and refactor-safe. These annotation attributes are also recognized by ReSharper when it has an equivalent annotation, which gives you real-time feedback on contract violations as you type.</description>
-		<tags>postsharp aop validation</tags>
-		<licenseUrl>https://creativecommons.org/licenses/by/3.0/</licenseUrl>
-		<projectUrl>https://github.com/Pathoschild/Pathoschild.DesignByContract#readme</projectUrl>
-		<requireLicenseAcceptance>false</requireLicenseAcceptance>
-		<dependencies>
-			<dependency id="PostSharp" version="2.1" />
-			<dependency id="Newtonsoft.Json" version="4.5" />
-		</dependencies>
-		<releaseNotes>Added contract inheritance from interfaces; added [NotDefault] annotation.</releaseNotes>
-	</metadata>
-	<files>
-		<file src="bin\Debug\Pathoschild.DesignByContract.Annotations.*" target="lib\net40" exclude="**\*.pssym" />
-	</files>
+  <metadata>
+    <id>Pathoschild.DesignByContract</id>
+    <title>Pathoschild.DesignByContract</title>
+    <version>1.1.0</version>
+    <authors>Jesse Plamondon-Willard</authors>
+    <summary>Enables code contracts on methods and properties. By annotating your code with attributes like [NotNull], you can remove common validation code and provide helpful exception messages, making your code more robust and refactor-safe.</summary>
+    <description>Enables code contracts on methods and properties. By annotating your code with attributes like [NotNull], you can remove common validation code and provide helpful exception messages, making your code more robust and refactor-safe. These annotation attributes are also recognized by ReSharper when it has an equivalent annotation, which gives you real-time feedback on contract violations as you type.</description>
+    <tags>postsharp aop validation</tags>
+    <licenseUrl>https://creativecommons.org/licenses/by/3.0/</licenseUrl>
+    <projectUrl>https://github.com/Pathoschild/Pathoschild.DesignByContract#readme</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <dependencies>
+      <dependency id="PostSharp" version="2.1" />
+      <dependency id="Newtonsoft.Json" version="4.5" />
+    </dependencies>
+    <releaseNotes>Added compile-time validation; added [NotNullOrEmpty] and [NotNullOrBlank] attributes; fixed build error if annotated property has no accessible setter.</releaseNotes>
+  </metadata>
+  <files>
+    <file src="bin\Debug\Pathoschild.DesignByContract.Annotations.*" target="lib\net40" exclude="**\*.pssym" />
+  </files>
 </package>

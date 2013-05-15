@@ -12,19 +12,20 @@ namespace Pathoschild.DesignByContract.Framework
 		/*********
 		** Accessors
 		*********/
-		/// <summary>The name of the type.</summary>
+		/// <summary>The name of the class.</summary>
 		[DataMember]
 		public string TypeName { get; set; }
-
-        /// <summary>
-        /// The full name of the returned value's type
-        /// </summary>
-        [DataMember]
-        public string ReturnFullTypeName { get; set; }
 
 		/// <summary>The name of the method.</summary>
 		[DataMember]
 		public string MethodName { get; set; }
+
+		/// <summary>The fully-qualified name of the return type.</summary>
+		[DataMember]
+		public string ReturnTypeQualifiedName { get; set; }
+
+		/// <summary>Whether the return type is not known at compile-time. This occurs when the type is generic and the type isn't specified in code.</summary>
+		public bool ReturnTypeIsUnknown { get; set; }
 
 		/// <summary>The contract annotation applied to the return value.</summary>
 		[DataMember]
@@ -40,21 +41,28 @@ namespace Pathoschild.DesignByContract.Framework
 		public ReturnValueMetadata(MemberInfo method, IReturnValuePrecondition annotation)
 			: this()
 		{
+			Type returnType = this.GetReturnType(method);
 			this.TypeName = method.DeclaringType.Name;
-            this.ReturnFullTypeName = GetReturnType(method).FullName;
+			this.ReturnTypeQualifiedName = returnType.AssemblyQualifiedName;
+			this.ReturnTypeIsUnknown = returnType.AssemblyQualifiedName == null;
 			this.MethodName = method.Name;
 			this.Annotation = annotation;
 		}
 
-        private static Type GetReturnType(MemberInfo method)
-        {
-            if (method is MethodInfo)
-                return (method as MethodInfo).ReturnType;
-            if (method is PropertyInfo)
-                return (method as PropertyInfo).PropertyType;
-            if (method is FieldInfo)
-                return (method as FieldInfo).FieldType;
-            throw new InvalidOperationException();
-        }
+		/// <summary>Get the type of the return value.</summary>
+		/// <param name="method">The method.</param>
+		/// <exception cref="InvalidOperationException">Cannot determine the return type for this method.</exception>
+		[CanBeNull]
+		private Type GetReturnType(MemberInfo method)
+		{
+			if (method is MethodInfo)
+				return (method as MethodInfo).ReturnType;
+			if (method is PropertyInfo)
+				return (method as PropertyInfo).PropertyType;
+			if (method is FieldInfo)
+				return (method as FieldInfo).FieldType;
+
+			throw new InvalidOperationException(String.Format("Method analysis failed for {0}::{1}: could not determine return type for method of type {2}.", method.DeclaringType != null ? method.DeclaringType.Name : "<null>", method.Name, method.GetType().Name));
+		}
 	}
 }

@@ -28,7 +28,7 @@ namespace Pathoschild.DesignByContract.Framework.Constraints
 		/// <param name="parameter">Represents a parameter annotated by a single contract annotation.</param>
 		public string GetError(ParameterMetadata parameter)
 		{
-			if (!this.IsAllowedType(parameter.ParameterFullTypeName))
+			if (!parameter.ParameterTypeIsUnknown && !this.IsAllowedType(parameter.ParameterQualifiedType, parameter.ParameterTypeIsUnknown))
 			{
 				return String.Format(
 					"This annotation is used incorrectly and will be ignored: {0} on the {1}::{2}({3}) parameter. The contract is only compatible with {4} types.",
@@ -46,7 +46,7 @@ namespace Pathoschild.DesignByContract.Framework.Constraints
 		/// <param name="returnValue">Represents a return value annotated by a single contract annotation.</param>
 		public string GetError(ReturnValueMetadata returnValue)
 		{
-			if (!this.IsAllowedType(returnValue.ReturnFullTypeName))
+			if (!returnValue.ReturnTypeIsUnknown && !this.IsAllowedType(returnValue.ReturnTypeQualifiedName, returnValue.ReturnTypeIsUnknown))
 			{
 				return String.Format(
 					"This annotation is used incorrectly and will be ignored: {0} on the {1}::{2} return value. The contract is only compatible with {3} types.",
@@ -54,7 +54,7 @@ namespace Pathoschild.DesignByContract.Framework.Constraints
 					returnValue.TypeName,
 					returnValue.MethodName,
 					String.Join(" or ", this.AllowedTypes.Select(p => p.Name))
-					);
+				);
 			}
 			return null;
 		}
@@ -65,8 +65,11 @@ namespace Pathoschild.DesignByContract.Framework.Constraints
 		*********/
 		/// <summary>Get whether a type is compatible with the <see cref="AllowedTypes"/>.</summary>
 		/// <param name="typeName">The full name of the actual value type.</param>
-		protected bool IsAllowedType(string typeName)
+		/// <param name="typeIsUnknown">Whether the type is not known at compile-time. This occurs when the type is generic and the type isn't specified in code.</param>
+		protected bool IsAllowedType(string typeName, bool typeIsUnknown)
 		{
+			if (typeIsUnknown)
+				return true; // don't validate the type at compile-time
 			Type type = Type.GetType(typeName);
 			return this.IsAllowedType(type);
 		}
