@@ -7,16 +7,16 @@ namespace Pathoschild.DesignByContract.Demo
 	public class Program
 	{
 		/// <summary>Execute the demo.</summary>
-		static void Main()
+		private static void Main()
 		{
 			Sword sword = new Sword();
-			
+
 			//                "1234567890123456789012345678901234567890123456789012345678901234567890123456789"
 			Console.WriteLine("Hi!");
 			Console.WriteLine();
 			Console.WriteLine("We have a Sword class with a Hit method, whose argument is annotated with the");
 			Console.WriteLine("[NotBlank] precondition. The class itself has no validation logic at all.");
-			
+
 			Console.WriteLine();
 			Console.WriteLine("Try entering some values to pass to this argument. Type \"q\" to continue.");
 			PrintDemo(sword.Hit);
@@ -35,18 +35,18 @@ namespace Pathoschild.DesignByContract.Demo
 			Console.WriteLine("Bye!");
 		}
 
-		static void PrintDemo(Func<string, string> action)
+		private static void PrintDemo(Func<string, string> action)
 		{
-			for(string input = Console.ReadLine(); input.ToLower().Trim() != "q"; input = Console.ReadLine())
+			for (string input = Console.ReadLine(); input.ToLower().Trim() != "q"; input = Console.ReadLine())
 			{
 				Console.WriteLine("> {0}", GetInvocationResult(() => action(input)));
 				Console.WriteLine();
-			} 
+			}
 		}
 
 		/// <summary>Print a textual representation of the method invocation to the console along with the return value or thrown exception.</summary>
 		/// <param name="action">The method invocation to print.</param>
-		static string GetInvocationResult(Func<string> action)
+		private static string GetInvocationResult(Func<string> action)
 		{
 			try
 			{

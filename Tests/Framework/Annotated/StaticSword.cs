@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Pathoschild.DesignByContract.Tests.Framework.Annotated
+﻿namespace Pathoschild.DesignByContract.Tests.Framework.Annotated
 {
 	/// <summary>A static class containing annotated code.</summary>
 	[DesignedByContract]

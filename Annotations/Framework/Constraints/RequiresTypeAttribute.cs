@@ -28,7 +28,7 @@ namespace Pathoschild.DesignByContract.Framework.Constraints
 		/// <param name="parameter">Represents a parameter annotated by a single contract annotation.</param>
 		public string GetError(ParameterMetadata parameter)
 		{
-			if (!parameter.ParameterTypeIsUnknown && !this.IsAllowedType(parameter.ParameterQualifiedType, parameter.ParameterTypeIsUnknown))
+			if (!this.IsAllowedType(parameter.ParameterQualifiedType, parameter.ParameterTypeIsUnknown))
 			{
 				return String.Format(
 					"This annotation is used incorrectly and will be ignored: {0} on the {1}::{2}({3}) parameter. The contract is only compatible with {4} types.",
@@ -46,7 +46,7 @@ namespace Pathoschild.DesignByContract.Framework.Constraints
 		/// <param name="returnValue">Represents a return value annotated by a single contract annotation.</param>
 		public string GetError(ReturnValueMetadata returnValue)
 		{
-			if (!returnValue.ReturnTypeIsUnknown && !this.IsAllowedType(returnValue.ReturnTypeQualifiedName, returnValue.ReturnTypeIsUnknown))
+			if (!this.IsAllowedType(returnValue.ReturnTypeQualifiedName, returnValue.ReturnTypeIsUnknown))
 			{
 				return String.Format(
 					"This annotation is used incorrectly and will be ignored: {0} on the {1}::{2} return value. The contract is only compatible with {3} types.",

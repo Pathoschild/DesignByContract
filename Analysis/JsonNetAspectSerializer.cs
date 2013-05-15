@@ -13,7 +13,7 @@ namespace Pathoschild.DesignByContract
 		** Properties
 		*********/
 		/// <summary>The Json.NET serializer settings.</summary>
-		readonly JsonSerializerSettings Settings = new JsonSerializerSettings
+		private readonly JsonSerializerSettings Settings = new JsonSerializerSettings
 		{
 			TypeNameHandling = TypeNameHandling.Objects,
 			Formatting = Formatting.None
