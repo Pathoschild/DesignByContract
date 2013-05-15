@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Pathoschild.DesignByContract.Framework.Constraints;
+using PostSharp;
+using PostSharp.Extensibility;
 
 namespace Pathoschild.DesignByContract.Framework.Analysis
 {
@@ -22,7 +25,8 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 		/// <summary>Analyze the contract annotations on a methods.</summary>
 		/// <param name="method">The method to analyze.</param>
 		/// <param name="inheritContract">Whether to inherit attributes from base types or interfaces.</param>
-		public MethodAnalysis AnalyzeMethod(MethodBase method, bool inheritContract)
+		/// <param name="emitWarnings">Whether to emit build warnings during analysis that indicate to the user where annotations are incorrectly used and will be ignored. This can only be used during compile-time analysis.</param>
+		public MethodAnalysis AnalyzeMethod(MethodBase method, bool inheritContract, bool emitWarnings = true)
 		{
 			// analyze method contract
 			var parameterPreconditions = this.GetParameterPreconditions(method, inheritContract);
@@ -38,6 +42,10 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 				else
 					parameterPreconditions = parameterPreconditions.Union(this.GetParameterPreconditions(property, inheritContract));
 			}
+
+			// validate
+			parameterPreconditions = parameterPreconditions.Where(contract => this.ValidateContractUsage(method, contract, emitWarnings));
+			returnPreconditions = returnPreconditions.Where(contract => this.ValidateContractUsage(method, contract, emitWarnings));
 
 			// return analysis
 			return new MethodAnalysis
@@ -177,7 +185,7 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 			// select annotations
 			return parameters.SelectMany(parameter => this.GetAnnotations(parameter, inherit));
 		}
-		
+
 		/// <summary>Get the contract requirements for the property setter value.</summary>
 		/// <param name="property">The property to analyze.</param>
 		/// <param name="inherit">Whether to inherit attributes from base types or interfaces.</param>
@@ -335,6 +343,58 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 			if (!(member1 is TMember) || !(member2 is TMember))
 				return true; // not applicable
 			return select(member1 as TMember) == select(member2 as TMember);
+		}
+
+		/***
+		** Validation
+		***/
+		/// <summary>Validate that the contract annotation is used correctly by checking any <see cref="IValidateContractUsageAttribute"/> on the annotation, and raise a warning if usage is incorrect.</summary>
+		/// <param name="method">The method to analyze.</param>
+		/// <param name="parameter">The parameter annotation to analyze.</param>
+		/// <param name="emitWarnings">Whether to emit build warnings during analysis that indicate to the user where annotations are incorrectly used and will be ignored. This can only be used during compile-time analysis.</param>
+		/// <returns>Returns <c>true</c> if usage is valid, else <c>false</c>.</returns>
+		protected bool ValidateContractUsage(MethodBase method, ParameterMetadata parameter, bool emitWarnings)
+		{
+			foreach (IValidateContractUsageAttribute validator in this.GetValidators(parameter.Annotation.GetType()))
+			{
+				string error = validator.GetError(parameter);
+				if (error != null)
+				{
+					if (emitWarnings)
+						Message.Write(MessageLocation.Of(method), SeverityType.Warning, "DB01", error);
+					return false;
+				}
+			}
+			return true;
+		}
+
+		/// <summary>Validate that the contract annotation is used correctly by checking any <see cref="IValidateContractUsageAttribute"/> on the annotation, and raise a warning if usage is incorrect.</summary>
+		/// <param name="method">The method to analyze.</param>
+		/// <param name="returnValue">The return value annotation to analyze.</param>
+		/// <param name="emitWarnings">Whether to emit build warnings during analysis that indicate to the user where annotations are incorrectly used and will be ignored. This can only be used during compile-time analysis.</param>
+		/// <returns>Returns <c>true</c> if usage is valid, else <c>false</c>.</returns>
+		protected bool ValidateContractUsage(MethodBase method, ReturnValueMetadata returnValue, bool emitWarnings)
+		{
+			foreach (IValidateContractUsageAttribute validator in this.GetValidators(returnValue.Annotation.GetType()))
+			{
+				string error = validator.GetError(returnValue);
+				if (error != null)
+				{
+					if (emitWarnings)
+						Message.Write(MessageLocation.Of(method), SeverityType.Warning, "DB02", error);
+					return false;
+				}
+			}
+			return true;
+		}
+
+		/// <summary>Get the annotation validators for an annotation type.</summary>
+		/// <param name="type">The annotation type.</param>
+		protected IEnumerable<IValidateContractUsageAttribute> GetValidators(Type type)
+		{
+			return type
+				.GetCustomAttributes(typeof(IValidateContractUsageAttribute), false)
+				.Cast<IValidateContractUsageAttribute>();
 		}
 	}
 }

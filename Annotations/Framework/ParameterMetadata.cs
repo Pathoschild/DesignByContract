@@ -16,11 +16,11 @@ namespace Pathoschild.DesignByContract.Framework
 		[DataMember]
 		public string TypeName { get; set; }
 
-        /// <summary>
-        /// The full name of the parameter's type
-        /// </summary>
-        [DataMember]
-        public string ParameterFullTypeName { get; set; }
+		/// <summary>
+		/// The full name of the parameter's type
+		/// </summary>
+		[DataMember]
+		public string ParameterFullTypeName { get; set; }
 
 		/// <summary>The name of the method.</summary>
 		[DataMember]
@@ -50,7 +50,7 @@ namespace Pathoschild.DesignByContract.Framework
 			: this()
 		{
 			this.TypeName = parameter.Member.DeclaringType.Name;
-		    this.ParameterFullTypeName = parameter.ParameterType.FullName;
+			this.ParameterFullTypeName = parameter.ParameterType.FullName;
 			this.MethodName = methodName ?? parameter.Member.Name;
 			this.Name = parameter.Name;
 			this.Position = parameter.Position;

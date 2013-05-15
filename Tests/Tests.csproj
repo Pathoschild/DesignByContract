@@ -43,12 +43,14 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\NotBlankTests.cs" />
+    <Compile Include="Attributes\NotEmptyTests.cs" />
     <Compile Include="Attributes\HasType.cs" />
     <Compile Include="Attributes\NotDefault.cs" />
     <Compile Include="Attributes\NotNullOrEmptyTests.cs" />
-    <Compile Include="Attributes\NotNullOrWhiteSpaceTests.cs" />
+    <Compile Include="Attributes\NotNullOrBlankTests.cs" />
     <Compile Include="Attributes\NotNull.cs" />
-    <Compile Include="Framework\Analysis\CanApplyToAnalysisTests.cs" />
+    <Compile Include="Framework\MethodAnalyzerTests.cs" />
     <Compile Include="Framework\Annotated\ISword.cs" />
     <Compile Include="Framework\Annotated\StaticSword.cs" />
     <Compile Include="Framework\Annotated\Sword.cs" />

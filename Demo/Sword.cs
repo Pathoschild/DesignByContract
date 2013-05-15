@@ -10,7 +10,7 @@ namespace Pathoschild.DesignByContract.Demo
 		/// <param name="target">The target of the sword-swinging.</param>
 		/// <returns>Returns a human-readable description of the action.</returns>
 		/// <exception cref="ParameterContractException">The <paramref name="target"/> is <c>null</c> or blank.</exception>
-		public string Hit([NotNull, NotNullOrWhiteSpace] string target)
+		public string Hit([NotNull, NotNullOrBlank] string target)
 		{
 			return String.Format("You hit {0} with a sword!", target);
 		}

@@ -1,15 +1,22 @@
 ﻿using System;
 using Pathoschild.DesignByContract.Framework;
+using Pathoschild.DesignByContract.Framework.Constraints;
 
 namespace Pathoschild.DesignByContract
 {
 	/// <summary>A contract precondition that a value not be a string that consists entirely of whitespace.</summary>
-	[AttributeUsage((AttributeTargets)(ConditionTargets.Parameter | ConditionTargets.ReturnValue))]
 	[Serializable]
-    [AppliesTo(typeof(string))]
-    [Obsolete("This attribute is now equivalent to NotNullOrWhitespace")]
+	[AttributeUsage((AttributeTargets)(ConditionTargets.Parameter | ConditionTargets.ReturnValue))]
+	[RequiresType(typeof(string))]
 	public class NotBlankAttribute : Attribute, IParameterPrecondition, IReturnValuePrecondition
 	{
+		/*********
+		** Properties
+		*********/
+		/// <summary>Whether to raise a validation error on <c>null</c> values.</summary>
+		protected bool RaiseErrorOnNull = false;
+
+
 		/*********
 		** Public methods
 		*********/
@@ -19,6 +26,8 @@ namespace Pathoschild.DesignByContract
 		/// <exception cref="ParameterContractException">The contract requirement was not met.</exception>
 		public void OnParameterPrecondition(ParameterMetadata parameter, object value)
 		{
+			if (this.IsNull(value))
+				throw new ParameterContractException(parameter, "cannot be null");
 			if (this.IsWhitespace(value))
 				throw new ParameterContractException(parameter, "cannot be blank or consist entirely of whitespace");
 		}
@@ -29,6 +38,8 @@ namespace Pathoschild.DesignByContract
 		/// <exception cref="ReturnValueContractException">The contract requirement was not met.</exception>
 		public void OnReturnValuePrecondition(ReturnValueMetadata returnValue, object value)
 		{
+			if (this.IsNull(value))
+				throw new ReturnValueContractException(returnValue, "cannot be null");
 			if (this.IsWhitespace(value))
 				throw new ReturnValueContractException(returnValue, "cannot be blank or consist entirely of whitespace");
 		}
@@ -40,7 +51,14 @@ namespace Pathoschild.DesignByContract
 		/// <param name="value">The value to check.</param>
 		protected bool IsWhitespace(object value)
 		{
-			return value != null && value is string && String.IsNullOrWhiteSpace(value as string);
+			return value is string && String.IsNullOrWhiteSpace(value as string);
+		}
+
+		/// <summary>Get whether the value is <c>null</c> and <see cref="RaiseErrorOnNull"/> is <c>true</c>.</summary>
+		/// <param name="value">The value to check.</param>
+		protected bool IsNull(object value)
+		{
+			return this.RaiseErrorOnNull && value == null;
 		}
 	}
 }

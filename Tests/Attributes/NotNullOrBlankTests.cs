@@ -3,29 +3,29 @@ using Pathoschild.DesignByContract.Tests.Framework;
 
 namespace Pathoschild.DesignByContract.Tests.Attributes
 {
-	/// <summary>Unit tests for <see cref="NotNullOrEmptyAttribute"/>.</summary>
+	/// <summary>Unit tests for <see cref="NotNullOrBlankAttribute"/>.</summary>
 	/// <remarks>These tests assume that the <see cref="DesignedByContractTests"/> pass.</remarks>
 	[TestFixture]
 	[DesignedByContract]
-	public class NotNullOrEmptyTests
+	public class NotNullOrBlankTests
 	{
 		/*********
 		** Unit tests
 		*********/
 		[ParameterContractTestCase("a valid value", false)]
-		[ParameterContractTestCase("   ", false)]
+		[ParameterContractTestCase("   ", true)]
 		[ParameterContractTestCase("", true)]
 		[ParameterContractTestCase(null, false)]
-		public string OnParameter([NotNullOrEmpty] string value)
+		public string OnParameter([NotNullOrBlank] string value)
 		{
 			return value;
 		}
 
 		[ReturnValueContractTestCase("a valid value", false)]
-		[ReturnValueContractTestCase("   ", false)]
+		[ReturnValueContractTestCase("   ", true)]
 		[ReturnValueContractTestCase("", true)]
 		[ReturnValueContractTestCase(null, false)]
-		[return: NotNullOrEmpty]
+		[return: NotNullOrBlank]
 		public string OnReturnValue(string value)
 		{
 			return value;

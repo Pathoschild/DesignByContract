@@ -1,12 +1,13 @@
 ﻿using System;
 using Pathoschild.DesignByContract.Framework;
+using Pathoschild.DesignByContract.Framework.Constraints;
 
 namespace Pathoschild.DesignByContract
 {
 	/// <summary>A contract precondition that a value not be <c>null</c>.</summary>
 	[AttributeUsage((AttributeTargets)(ConditionTargets.Parameter | ConditionTargets.ReturnValue))]
 	[Serializable]
-    [AppliesToReferenceTypes]
+	[RequiresReferenceType]
 	public class NotNullAttribute : Attribute, IParameterPrecondition, IReturnValuePrecondition
 	{
 		/*********
