@@ -47,6 +47,9 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="DesignedByContractAttribute.cs" />
     <Compile Include="Framework\Analysis\IMethodAnalyzer.cs" />
     <Compile Include="Framework\Analysis\MethodAnalysis.cs" />
