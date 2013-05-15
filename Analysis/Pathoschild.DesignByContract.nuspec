@@ -19,5 +19,6 @@
   </metadata>
   <files>
     <file src="bin\Debug\Pathoschild.DesignByContract.Annotations.*" target="lib\net40" exclude="**\*.pssym" />
+    <file src="bin\Debug\Pathoschild.DesignByContract.Analysis.pdb" target="lib\net40" exclude="**\*.pssym" />
   </files>
 </package>
