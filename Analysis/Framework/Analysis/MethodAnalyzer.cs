@@ -269,14 +269,16 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 		/// <param name="inherit">Whether to inherit attributes from base types or interfaces.</param>
 		private IEnumerable<ParameterMetadata> GetAnnotations(PropertyInfo property, bool inherit)
 		{
+			// get property setter value (implicit last parameter)
+			MethodInfo setter = property.GetSetMethod(true);
+			if (setter == null)
+				return new ParameterMetadata[0];
+			ParameterInfo parameter = setter.GetParameters().Last();
+
+			// get annotations
 			return this
 				.GetCustomAttributes<IParameterPrecondition>(property, inherit)
-				.Select(annotation =>
-				{
-					// setter value (implicit last parameter)
-					ParameterInfo parameter = property.GetSetMethod(true).GetParameters().Last();
-					return new ParameterMetadata(parameter, annotation, property.Name);
-				});
+				.Select(annotation => new ParameterMetadata(parameter, annotation, property.Name));
 		}
 
 		/// <summary>Get the interface definition for an implemented method.</summary>
