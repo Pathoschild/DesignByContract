@@ -1,0 +1,8 @@
+# always normalize line endings (ignore local core.autocrlf settings)
+* text=auto
+
+# explicitly declare text files whose line endings to normalize
+*.config text
+*.cs text
+*.csproj text
+*.js text
