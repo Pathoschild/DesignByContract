@@ -29,8 +29,8 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 		public MethodAnalysis AnalyzeMethod(MethodBase method, bool inheritContract, bool emitWarnings = true)
 		{
 			// analyze method contract
-			var parameterPreconditions = this.GetParameterPreconditions(method, inheritContract);
-			var returnPreconditions = this.GetReturnValuePreconditions(method, inheritContract);
+			IEnumerable<ParameterMetadata> parameterPreconditions = this.GetParameterPreconditions(method, inheritContract);
+			IEnumerable<ReturnValueMetadata> returnPreconditions = this.GetReturnValuePreconditions(method, inheritContract);
 
 			// analyze property contract
 			PropertyInfo property = this.GetProperty(method);
@@ -38,9 +38,9 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 			{
 				// cascade annotations on the property to the getter/setter methods
 				if (this.IsPropertyGetter(method))
-					returnPreconditions = returnPreconditions.Union(this.GetReturnValuePreconditions(property, inheritContract));
+					returnPreconditions = returnPreconditions.Concat(this.GetReturnValuePreconditions(property, inheritContract));
 				else
-					parameterPreconditions = parameterPreconditions.Union(this.GetParameterPreconditions(property, inheritContract));
+					parameterPreconditions = parameterPreconditions.Concat(this.GetParameterPreconditions(property, inheritContract));
 			}
 
 			// validate
@@ -84,8 +84,7 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 		/// <param name="method">The method to analyze.</param>
 		protected bool IsPropertyGetter(MethodBase method)
 		{
-			return this.IsPropertyAccessor(method)
-				&& method.Name.StartsWith("get_");
+			return this.IsPropertyAccessor(method) && method.Name.StartsWith("get_");
 		}
 
 		/// <summary>Get the property for which this method is an accessor.</summary>
@@ -129,15 +128,6 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 			return customAttributeProvider.GetCustomAttributes(typeof(T), inherit).Cast<T>();
 		}
 
-		/// <summary>Get the custom attributes of a given type from a provider.</summary>
-		/// <typeparam name="T">The type of the custom attributes.</typeparam>
-		/// <param name="property">The object from which to retrieve custom attributes.</param>
-		/// <param name="inherit">Whether to inherit attributes from base types or interfaces.</param>
-		protected IEnumerable<T> GetCustomAttributes<T>(MemberInfo property, bool inherit)
-		{
-			return property.GetCustomAttributes(typeof(T), inherit).Cast<T>();
-		}
-
 		/// <summary>Get the attributes applied to a method.</summary>
 		/// <typeparam name="T">The attribute type to get.</typeparam>
 		/// <param name="method">The method whose attributes to get.</param>
@@ -147,18 +137,8 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 		{
 			var attributes = this.GetCustomAttributes<T>(method, inherit);
 			if (withReturnTypeAttributes)
-				attributes = this.GetCustomAttributes<T>(method.ReturnTypeCustomAttributes, inherit).Union(attributes);
-
+				attributes = this.GetCustomAttributes<T>(method.ReturnTypeCustomAttributes, inherit).Concat(attributes);
 			return attributes;
-		}
-
-		/// <summary>Get the attributes applied to a parameter.</summary>
-		/// <typeparam name="T">The attribute type to get.</typeparam>
-		/// <param name="parameter">The parameter whose attributes to get.</param>
-		/// <param name="inherit">Whether to inherit attributes from base types or interfaces.</param>
-		protected IEnumerable<T> GetParameterAttributes<T>(ParameterInfo parameter, bool inherit)
-		{
-			return this.GetCustomAttributes<T>(parameter, inherit);
 		}
 
 		/***
@@ -179,7 +159,7 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 					.GetInterfaceDefinitions(method)
 					.OfType<MethodInfo>()
 					.SelectMany(m => m.GetParameters());
-				parameters = parameters.Union(interfaceParameters);
+				parameters = parameters.Concat(interfaceParameters);
 			}
 
 			// select annotations
@@ -201,7 +181,7 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 					.GetInterfaceDefinitions(property)
 					.OfType<PropertyInfo>()
 					.SelectMany(m => this.GetAnnotations(m, false));
-				annotations = annotations.Union(interfaceAnnotations);
+				annotations = annotations.Concat(interfaceAnnotations);
 			}
 			return annotations;
 		}
@@ -226,7 +206,7 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 						.GetMethodAttributes<IReturnValuePrecondition>(m, false, true)
 						.Select(attr => new ReturnValueMetadata(m, attr))
 					);
-				annotations = annotations.Union(interfaceAnnotations);
+				annotations = annotations.Concat(interfaceAnnotations);
 			}
 
 			return annotations;
@@ -248,7 +228,7 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 						.GetCustomAttributes<IReturnValuePrecondition>(m, false)
 						.Select(attr => new ReturnValueMetadata(m, attr))
 					);
-				annotations = annotations.Union(interfaceAnnotations);
+				annotations = annotations.Concat(interfaceAnnotations);
 			}
 
 			return annotations;
@@ -260,7 +240,7 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 		private IEnumerable<ParameterMetadata> GetAnnotations(ParameterInfo parameter, bool inherit)
 		{
 			return this
-				.GetParameterAttributes<IParameterPrecondition>(parameter, inherit)
+				.GetCustomAttributes<IParameterPrecondition>(parameter, inherit)
 				.Select(annotation => new ParameterMetadata(parameter, annotation));
 		}
 
@@ -291,13 +271,7 @@ namespace Pathoschild.DesignByContract.Framework.Analysis
 				.GetInterfaces()
 				.SelectMany(interfaceType => methodType.GetInterfaceMap(interfaceType).InterfaceMethods)
 				.Where(m => this.MemberSignatureEquals(m, member))
-				.Select(m =>
-				{
-					// if it's a prop getter/setter, return the property itself
-					if (IsPropertyAccessor(m))
-						return (MemberInfo)this.GetProperty(m);
-					return m;
-				})
+				.Select(m => this.IsPropertyAccessor(m) ? (MemberInfo)this.GetProperty(m) : m) // if it's a prop getter/setter, return the property itself
 				.Distinct();
 		}
 
