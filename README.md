@@ -58,7 +58,7 @@ You can create new annotations by implementing [attributes](http://msdn.microsof
 You only need to do the following for uncompiled projects containing annotations. You can reference their compiled DLLs without knowing about annotations or PostSharp, so using these annotations shouldn't affect redistribution. (These steps assume you're using Visual Studio.)
 
 1. Acquire a [free Starter License for PostSharp](http://www.sharpcrafters.com/purchase/compare).
-2. Install the [`Pathoschild.DesignByContract` NuGet package][http://nuget.org/packages/Pathoschild.DesignByContract] for the projects that will contain annotations.
+2. Install the [`Pathoschild.DesignByContract` NuGet package](http://nuget.org/packages/Pathoschild.DesignByContract) for the projects that will contain annotations.
 
 And that's it; you can now enforce code contracts throughout your code.
 
