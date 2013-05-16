@@ -15,7 +15,7 @@
       <dependency id="PostSharp" version="2.1" />
       <dependency id="Newtonsoft.Json" version="4.5" />
     </dependencies>
-    <releaseNotes>Added compile-time validation; added [NotNullOrEmpty] and [NotNullOrBlank] attributes; fixed build error if annotated property has no accessible setter.</releaseNotes>
+    <releaseNotes>Added compile-time validation; added [NotNullOrEmpty] and [NotNullOrBlank] attributes; fixed build error if annotated property has no accessible setter; reduced build time.</releaseNotes>
   </metadata>
   <files>
     <file src="bin\Debug\Pathoschild.DesignByContract.Annotations.*" target="lib\net40" exclude="**\*.pssym" />
