@@ -4,7 +4,6 @@ using System.Runtime.Serialization;
 using Pathoschild.DesignByContract.Framework;
 using Pathoschild.DesignByContract.Framework.Analysis;
 using PostSharp.Aspects;
-using PostSharp.Aspects.Configuration;
 
 namespace Pathoschild.DesignByContract
 {
@@ -12,7 +11,9 @@ namespace Pathoschild.DesignByContract
 	/// <remarks>This aspect analyzes annotated code at compile time, serializes the reflection metadata into its cache, and intercepts method calls at runtime to check conditions.</remarks>
 	[AttributeUsage(AttributeTargets.All)]
 	[Serializable, DataContract]
-	[OnMethodBoundaryAspectConfiguration(SerializerType = typeof(JsonNetAspectSerializer))]
+#if ENABLE_PARTIAL_TRUST
+	[PostSharp.Aspects.Configuration.OnMethodBoundaryAspectConfiguration(SerializerType = typeof(JsonNetAspectSerializer))]
+#endif
 	public class DesignedByContractAttribute : OnMethodBoundaryAspect
 	{
 		/*********
