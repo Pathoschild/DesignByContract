@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using Pathoschild.DesignByContract.Framework;
 using Pathoschild.DesignByContract.Framework.Constraints;
 
@@ -8,7 +8,7 @@ namespace Pathoschild.DesignByContract
 	/// <summary>A contract precondition that a value is not null, or an empty string or collection.</summary>
 	[Serializable]
 	[AttributeUsage((AttributeTargets)(ConditionTargets.Parameter | ConditionTargets.ReturnValue))]
-	[RequiresType(typeof(string), typeof(IEnumerable<>))]
+	[RequiresType(typeof(string), typeof(IEnumerable))]
 	public class NotNullOrEmptyAttribute : NotEmptyAttribute
 	{
 		/*********

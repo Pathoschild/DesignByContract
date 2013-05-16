@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using Pathoschild.DesignByContract.Framework;
 using Pathoschild.DesignByContract.Framework.Constraints;
@@ -10,7 +9,7 @@ namespace Pathoschild.DesignByContract
 	/// <summary>A contract precondition that a value not be an empty enumeration.</summary>
 	[Serializable]
 	[AttributeUsage((AttributeTargets)(ConditionTargets.Parameter | ConditionTargets.ReturnValue))]
-	[RequiresType(typeof(string), typeof(IEnumerable<>))]
+	[RequiresType(typeof(string), typeof(IEnumerable))]
 	public class NotEmptyAttribute : Attribute, IParameterPrecondition, IReturnValuePrecondition
 	{
 		/*********
