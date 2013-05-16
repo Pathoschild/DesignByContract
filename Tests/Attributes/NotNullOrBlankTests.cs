@@ -15,7 +15,7 @@ namespace Pathoschild.DesignByContract.Tests.Attributes
 		[ParameterContractTestCase("a valid value", false)]
 		[ParameterContractTestCase("   ", true)]
 		[ParameterContractTestCase("", true)]
-		[ParameterContractTestCase(null, false)]
+		[ParameterContractTestCase(null, true)]
 		public string OnParameter([NotNullOrBlank] string value)
 		{
 			return value;
@@ -24,7 +24,7 @@ namespace Pathoschild.DesignByContract.Tests.Attributes
 		[ReturnValueContractTestCase("a valid value", false)]
 		[ReturnValueContractTestCase("   ", true)]
 		[ReturnValueContractTestCase("", true)]
-		[ReturnValueContractTestCase(null, false)]
+		[ReturnValueContractTestCase(null, true)]
 		[return: NotNullOrBlank]
 		public string OnReturnValue(string value)
 		{
