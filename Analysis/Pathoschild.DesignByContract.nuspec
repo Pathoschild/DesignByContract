@@ -13,9 +13,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <dependencies>
       <dependency id="PostSharp" version="3.0.0" />
-      <dependency id="Newtonsoft.Json" version="4.5" />
     </dependencies>
-    <releaseNotes>Updated to PostSharp 3.</releaseNotes>
+    <releaseNotes>Updated to PostSharp 3; dropped support for partial-trust environments.</releaseNotes>
   </metadata>
   <files>
     <file src="bin\Debug\Pathoschild.DesignByContract.Annotations.*" target="lib\net40" exclude="**\*.pssym" />

@@ -36,10 +36,6 @@
     <DocumentationFile>bin\Release\Pathoschild.DesignByContract.Analysis.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="PostSharp, Version=3.0.38.9, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\PostSharp.3.0.38\lib\net20\PostSharp.dll</HintPath>
@@ -56,7 +52,6 @@
     <Compile Include="Framework\Analysis\IMethodAnalyzer.cs" />
     <Compile Include="Framework\Analysis\MethodAnalysis.cs" />
     <Compile Include="Framework\Analysis\MethodAnalyzer.cs" />
-    <Compile Include="JsonNetAspectSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
