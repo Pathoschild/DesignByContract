@@ -3,6 +3,7 @@ using System.IO;
 using Newtonsoft.Json;
 using PostSharp.Aspects;
 using PostSharp.Aspects.Serialization;
+using PostSharp.Reflection;
 
 namespace Pathoschild.DesignByContract
 {
@@ -23,11 +24,12 @@ namespace Pathoschild.DesignByContract
 		/*********
 		** Public methods
 		*********/
-		/// <summary>Serialize a set of aspects.</summary>
+		/// <summary>Serialize a set of aspects into a stream.</summary>
 		/// <param name="aspects">The aspects to serialize.</param>
 		/// <param name="stream">The stream to which to write.</param>
+		/// <param name="metadataEmitter">A metadata emitter for the current module.</param>
 		[Obsolete]
-		public override void Serialize(IAspect[] aspects, Stream stream)
+		public override void Serialize(IAspect[] aspects, Stream stream, IMetadataEmitter metadataEmitter)
 		{
 			using (StreamWriter writer = new StreamWriter(stream))
 			{
@@ -38,8 +40,9 @@ namespace Pathoschild.DesignByContract
 
 		/// <summary>Deserialize a set of aspects.</summary>
 		/// <param name="stream">The stream from which to read.</param>
+		/// <param name="metadataDispenser">Metadata dispenser to be used to resolve serialized metadata references in <paramref name="stream"/>.</param>
 		[Obsolete]
-		public override IAspect[] Deserialize(Stream stream)
+		protected override IAspect[] Deserialize(Stream stream, IMetadataDispenser metadataDispenser)
 		{
 			using (StreamReader reader = new StreamReader(stream))
 			{
